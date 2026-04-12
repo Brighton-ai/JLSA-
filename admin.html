@@ -278,6 +278,20 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
           <div class="d-grid">
             <div class="d-field"><label class="d-lbl">Company Name</label><input class="d-in" id="e-nav-name" placeholder="Joshlee Solutions Africa"></div>
             <div class="d-field"><label class="d-lbl">Logo Tagline</label><input class="d-in" id="e-nav-tagline" placeholder="Developing Solutions for The Future"></div>
+            <div class="d-field">
+              <label class="d-lbl">Logo Image <span style="font-weight:300;opacity:.6;">(optional — replaces the "JS" icon)</span></label>
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px;">
+                <div id="logo-preview" style="width:52px;height:52px;border-radius:10px;background:rgba(107,50,200,.15);border:1.5px dashed rgba(107,50,200,.35);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.3);overflow:hidden;flex-shrink:0;">No img</div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <label style="background:rgba(107,50,200,.2);border:1px solid rgba(107,50,200,.4);color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;">
+                    Upload Logo
+                    <input type="file" id="logo-upload" accept="image/png,image/jpeg,image/svg+xml,image/webp" style="display:none;" onchange="handleLogoUpload(this)">
+                  </label>
+                  <button class="d-del" style="font-size:11px;padding:5px 12px;" onclick="clearLogo()">Remove Logo</button>
+                </div>
+              </div>
+              <input type="hidden" id="e-nav-logo-img">
+            </div>
           </div>
           <div class="btn-row"><button class="d-save" onclick="saveSection('nav')">Save Logo</button></div>
         </div>
@@ -668,6 +682,11 @@ async function loadContent(){
 function populateForms(){
   if(!D)return;
   setVal('e-nav-name',D.nav?.logoName);setVal('e-nav-tagline',D.nav?.logoTagline);setVal('e-nav-cta',D.nav?.ctaLabel);setVal('e-nav-ctahref',D.nav?.ctaHref);
+  // Logo image preview
+  const li = D.nav?.logoImg||'';
+  const logoImgInput = g('e-nav-logo-img'); if(logoImgInput) logoImgInput.value = li;
+  const lp = g('logo-preview');
+  if(lp) lp.innerHTML = li ? `<img src="${li}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;">` : 'No img';
   setVal('e-tag',D.hero?.tag);setVal('e-h1',D.hero?.headline);setVal('e-h1-em',D.hero?.headlineItalic);setVal('e-h1-small',D.hero?.headlineSmall);setVal('e-desc',D.hero?.description);
   setVal('e-al',D.about?.label);setVal('e-ah',D.about?.heading);setVal('e-ap',D.about?.body);
   setVal('e-sl',D.services?.label);setVal('e-sh',D.services?.heading);setVal('e-sp',D.services?.description);
@@ -777,7 +796,7 @@ function toggleCard(id){const c=g(id);if(c)c.classList.toggle('open');}
 /* SAVE SECTION */
 async function saveSection(section){
   if(!D)return;
-  if(section==='nav')D.nav={logoName:val('e-nav-name'),logoTagline:val('e-nav-tagline'),links:collectNavLinks(),ctaLabel:val('e-nav-cta'),ctaHref:val('e-nav-ctahref')};
+  if(section==='nav')D.nav={logoName:val('e-nav-name'),logoTagline:val('e-nav-tagline'),logoImg:val('e-nav-logo-img')||'',links:collectNavLinks(),ctaLabel:val('e-nav-cta'),ctaHref:val('e-nav-ctahref')};
   if(section==='hero')D.hero={tag:val('e-tag'),headline:val('e-h1'),headlineItalic:val('e-h1-em'),headlineSmall:val('e-h1-small'),description:val('e-desc')};
   if(section==='about')D.about={label:val('e-al'),heading:val('e-ah'),body:val('e-ap')};
   if(section==='services'){D.services.label=val('e-sl');D.services.heading=val('e-sh');D.services.description=val('e-sp');}
@@ -863,6 +882,41 @@ async function sendReply(id){
     else toast(r.message||'Failed to send','error');
   }catch{toast('Connection error','error');}
   btn.textContent='Send Reply →';btn.disabled=false;
+}
+
+async function handleLogoUpload(input) {
+  const file = input.files[0];
+  if(!file) return;
+  if(file.size > 512 * 1024) { toast('Image must be under 512 KB.', 'error'); input.value=''; return; }
+  const lp = g('logo-preview');
+  if(lp) lp.innerHTML = '<span style="font-size:10px;opacity:.5;">Uploading...</span>';
+  try {
+    // Upload directly from browser to Cloudinary using real FormData + file blob
+   
+const fd = new FormData();
+fd.append('file', file);
+fd.append('upload_preset', 'logojlsa');   // ← Change only this line
+const r = await fetch('https://api.cloudinary.com/v1_1/dpqog9kdb/image/upload', {
+  method: 'POST',
+  body: fd
+});
+
+    const d = await r.json();
+    if(!r.ok) { toast(d.error?.message || 'Upload failed.', 'error'); if(lp) lp.innerHTML='No img'; return; }
+    const imgInput = g('e-nav-logo-img'); if(imgInput) imgInput.value = d.secure_url;
+    if(lp) lp.innerHTML = `<img src="${d.secure_url}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;">`;
+    toast('Logo uploaded — click Save to apply.');
+  } catch(err) {
+    toast('Upload error: ' + err.message, 'error');
+    if(lp) lp.innerHTML = 'No img';
+  }
+  input.value = '';
+}
+
+function clearLogo() {
+  const imgInput = g('e-nav-logo-img'); if(imgInput) imgInput.value = '';
+  const lp = g('logo-preview'); if(lp) lp.innerHTML = 'No img';
+  toast('Logo removed — click Save to apply.');
 }
 
 async function deleteMsg(id,btn){

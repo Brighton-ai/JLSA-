@@ -508,3 +508,23 @@ footer{background:var(--black);padding:72px 0 36px;}
 #chat-send{width:36px;height:36px;border-radius:50%;background:var(--purple,#4B1D8F);border:none;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
 #chat-send:hover{background:var(--purple2,#6B32C8);}
 @media(max-width:480px){#chatbot-window{width:calc(100vw - 32px);right:16px;bottom:84px;}#chatbot-btn{bottom:16px;right:16px;}}
+
+/* ── LOGO IMAGE ── */
+/* When a custom logo image is set, hide the purple gradient + "JS" text */
+.logo-icon.has-img{background:transparent !important;box-shadow:none !important;}
+.logo-icon.has-img::after{content:none !important;display:none !important;}
+/* Image fills the fixed 42x42 icon box exactly — no size change to nav */
+.logo-icon.has-img img{
+  display:block;
+  width:42px;height:42px;
+  min-width:42px;
+  object-fit:contain;
+  border-radius:8px;
+  flex-shrink:0;
+}
+@media(max-width:900px){
+  .logo-icon.has-img img{width:36px;height:36px;min-width:36px;}
+}
+@media(max-width:480px){
+  .logo-icon.has-img img{width:32px;height:32px;min-width:32px;}
+}

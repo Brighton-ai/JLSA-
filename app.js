@@ -68,7 +68,7 @@ const DEFAULT_DATA = {
     heading: "Let's Start a Conversation",
     description: "Whether you need an IT audit, cybersecurity consultation, network setup or a new website — our team is ready to help.",
     phone: "0739 293 691",
-    email: "miricconsultantskenya@gmail.com",
+    email: "info@joshleesafrica.com",
     website: "joshleesafrica.com",
     location: "Nairobi, Kenya"
   },
@@ -152,7 +152,27 @@ function deepMerge(base, override) {
 
 /* ─── RENDER ─── */
 function renderAll() {
-  applyTheme();
+  console.log("Logo URL from server:", D.nav?.logoImg || "No logo");
+
+  // FIXED LOGO RENDERING
+  const nav = D.nav || {};
+  const logoName = nav.logoName || 'Joshlee Solutions Africa';
+  const logoTagline = nav.logoTagline || 'Developing Solutions for The Future';
+  const logoImg = nav.logoImg || '';
+
+  ['nav-logo-name','ft-logo-name'].forEach(id => { const el=g(id); if(el) el.textContent = logoName; });
+  ['nav-logo-sub','ft-logo-sub'].forEach(id => { const el=g(id); if(el) el.textContent = logoTagline; });
+
+  ['nav-logo-icon','ft-logo-icon'].forEach(id => {
+    const el = g(id); if(!el) return;
+    if(logoImg) {
+      el.innerHTML = `<img src="${logoImg}" alt="${logoName}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;">`;
+      el.classList.add('has-img');
+    } else {
+      el.innerHTML = '';
+      el.classList.remove('has-img');
+    }
+  });
 
   // Hero
   const htEl = g('hero-tag'); if(htEl) htEl.textContent = D.hero.tag;
@@ -416,11 +436,9 @@ async function submitContact() {
   const service   = (g('cf-service')?.value || '').trim();
   const message   = (g('cf-message')?.value || '').trim();
 
-  // Hide previous messages
   if(successEl) successEl.style.display = 'none';
   if(errorEl)   errorEl.style.display   = 'none';
 
-  // Basic validation
   if(!firstName) { showFormError('Please enter your first name.'); return; }
   if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showFormError('Please enter a valid email address.'); return; }
   if(!message) { showFormError('Please enter a message.'); return; }
@@ -436,7 +454,6 @@ async function submitContact() {
     const data = await res.json();
     if(data.ok) {
       if(successEl) successEl.style.display = 'block';
-      // Reset form
       ['cf-fname','cf-lname','cf-company','cf-email','cf-service','cf-message'].forEach(id => {
         const el = g(id); if(el) el.value = '';
       });
@@ -479,7 +496,6 @@ async function sendChat() {
   inp.value = '';
   appendChatMsg(msg, 'user');
 
-  // Show typing indicator
   const typingId = 'chat-typing-' + Date.now();
   appendChatMsg('…', 'bot', typingId);
 
@@ -504,7 +520,6 @@ function appendChatMsg(text, role, id) {
   const div = document.createElement('div');
   div.className = `chat-msg ${role}`;
   if(id) div.id = id;
-  // Convert newlines to <br>
   const bubble = document.createElement('div');
   bubble.className = 'chat-bubble';
   bubble.innerHTML = text.replace(/\n/g, '<br>');
