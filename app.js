@@ -141,7 +141,7 @@ async function loadData() {
 function deepMerge(base, override) {
   const result = JSON.parse(JSON.stringify(base));
   for (const key in override) {
-    if (override[key] && typeof override[key] === 'object' && !Array.isArray(override[key])) {
+    if (override[key] && typeof override[key] === 'object' && !Array.isArray(override[key]) && !Array.isArray(base[key])) {
       result[key] = deepMerge(base[key] || {}, override[key]);
     } else if (override[key] !== undefined && override[key] !== null && override[key] !== '') {
       result[key] = override[key];
@@ -208,15 +208,15 @@ function renderAll() {
 
   // Services
   const slEl = g('svc-lbl'); if(slEl) slEl.textContent = D.services.label;
-  const shEl = g('svc-h'); if(shEl) shEl.innerHTML = `Our <em>${D.services.heading.replace('Our ','').replace('Core Services','Core Services')}</em>`;
+  const shEl = g('svc-h'); if(shEl) shEl.innerHTML = `Our <em>${(D.services.heading || 'Core Services').replace(/^Our\s+/i,'')}</em>`;
   const spEl = g('svc-p'); if(spEl) spEl.textContent = D.services.description;
-  s('services-grid', D.services.items.map((sv,i) => `<div class="svc-card rv d${Math.min(i+1,5)}"><div class="svc-num">${sv.n}</div><div class="svc-ic">${sv.ic}</div><div class="svc-title">${sv.t}</div><div class="svc-desc">${sv.d}</div><div class="svc-tags">${sv.tags.map(t=>`<span class="svc-tag">${t}</span>`).join('')}</div></div>`).join(''));
+  s('services-grid', D.services.items.map((sv,i) => `<div class="svc-card rv d${Math.min(i+1,5)}"><div class="svc-num">${sv.n || String(i+1).padStart(2,'0')}</div><div class="svc-ic">${sv.ic}</div><div class="svc-title">${sv.t}</div><div class="svc-desc">${sv.d}</div><div class="svc-tags">${(sv.tags||[]).map(t=>`<span class="svc-tag">${t}</span>`).join('')}</div></div>`).join(''));
 
   // Products
   const plEl = g('prod-lbl'); if(plEl) plEl.textContent = D.products.label;
-  const phEl = g('prod-h'); if(phEl) phEl.innerHTML = `Specialised <em>${D.products.heading.replace('Specialised ','')}</em>`;
+  const phEl = g('prod-h'); if(phEl) phEl.innerHTML = `Specialised <em>${(D.products.heading || 'Specialised Offerings').replace(/^Specialised\s+/i,'')}</em>`;
   const ppEl = g('prod-p'); if(ppEl) ppEl.textContent = D.products.description;
-  s('prod-track', D.products.items.map(p => `<div class="prod-card"><div class="prod-card-top"><div class="pc-num">${p.n}</div><div class="prod-card-ic">${p.ic}</div><div class="prod-card-title">${p.t}</div><div class="prod-card-desc">${p.d}</div></div><ul class="prod-card-feats">${p.f.map(f=>`<li>${f}</li>`).join('')}</ul></div>`).join(''));
+  s('prod-track', D.products.items.map((p,i) => `<div class="prod-card"><div class="prod-card-top"><div class="pc-num">${p.n || String(i+1).padStart(2,'0')}</div><div class="prod-card-ic">${p.ic}</div><div class="prod-card-title">${p.t}</div><div class="prod-card-desc">${p.d}</div></div><ul class="prod-card-feats">${(p.f||[]).map(f=>`<li>${f}</li>`).join('')}</ul></div>`).join(''));
   initProdScroll();
 
   // Clients
@@ -536,6 +536,7 @@ function removeChatMsg(id) {
 /* ─── BOOT ─── */
 (async () => {
   await loadData();
+  applyTheme();
   renderAll();
   initZoom();
   initParallax();

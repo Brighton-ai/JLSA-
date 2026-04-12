@@ -736,7 +736,7 @@ function renderServices(){
       </div>
     </div>`).join('');
 }
-function saveSvcItem(i){D.services.items[i].ic=val(`si-${i}`);D.services.items[i].t=val(`st-${i}`);D.services.items[i].d=val(`sd-${i}`);D.services.items[i].tags=val(`stags-${i}`).split(',').map(s=>s.trim()).filter(Boolean);saveSection('services');}
+function saveSvcItem(i){D.services.items[i].n=D.services.items[i].n||String(i+1).padStart(2,'0');D.services.items[i].ic=val(`si-${i}`);D.services.items[i].t=val(`st-${i}`);D.services.items[i].d=val(`sd-${i}`);D.services.items[i].tags=val(`stags-${i}`).split(',').map(s=>s.trim()).filter(Boolean);saveSection('services');}
 
 function renderProducts(){
   const items=D.products?.items||[];
@@ -754,7 +754,7 @@ function renderProducts(){
       </div>
     </div>`).join('');
 }
-function saveProdItem(i){D.products.items[i].ic=val(`pi-${i}`);D.products.items[i].t=val(`pt-${i}`);D.products.items[i].d=val(`pd-${i}`);D.products.items[i].f=val(`pf-${i}`).split('\n').map(s=>s.trim()).filter(Boolean);saveSection('products');}
+function saveProdItem(i){D.products.items[i].n=D.products.items[i].n||String(i+1).padStart(2,'0');D.products.items[i].ic=val(`pi-${i}`);D.products.items[i].t=val(`pt-${i}`);D.products.items[i].d=val(`pd-${i}`);D.products.items[i].f=val(`pf-${i}`).split('\n').map(s=>s.trim()).filter(Boolean);saveSection('products');}
 
 function renderClients(){
   const items=D.clients?.items||[];
