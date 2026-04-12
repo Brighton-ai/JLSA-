@@ -6,26 +6,15 @@
 <title>JLSA Admin Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --purple:#4B1D8F;--purple2:#6B32C8;--purple3:#8B55D4;
-  --gold:#C9960C;--gold2:#E4AF24;--gold3:#F5CE6A;
-  --black:#0A0812;--black2:#110E1C;
-  --white:#FEFCFF;--cream:#F9F6FF;
-  --ink:#0D0A1A;--ink2:#2D2840;--ink3:#5C5570;--ink4:#9991AA;
-  --rule:rgba(75,29,143,.12);--rule2:rgba(75,29,143,.06);
-  --shadow:0 2px 16px rgba(75,29,143,.08);
-  --shadow2:0 8px 40px rgba(75,29,143,.14);
-  --green:#22c55e;--red:#ef4444;--orange:#f97316;
-}
+:root{--purple:#4B1D8F;--purple2:#6B32C8;--purple3:#8B55D4;--gold:#C9960C;--gold2:#E4AF24;--gold3:#F5CE6A;--black:#0A0812;--black2:#110E1C;--white:#FEFCFF;--cream:#F9F6FF;--ink:#0D0A1A;--ink2:#2D2840;--ink3:#5C5570;--ink4:#9991AA;--rule:rgba(75,29,143,.12);--shadow:0 2px 16px rgba(75,29,143,.08);--shadow2:0 8px 40px rgba(75,29,143,.14);--green:#22c55e;--red:#ef4444;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Outfit',sans-serif;background:var(--black);color:var(--white);min-height:100vh;display:flex;flex-direction:column;}
-
-/* ── LOGIN ── */
+/* LOGIN */
 #login-screen{position:fixed;inset:0;background:linear-gradient(145deg,var(--black) 0%,var(--black2) 40%,#1A0838 100%);display:flex;align-items:center;justify-content:center;z-index:9999;}
 #login-screen.hidden{display:none;}
 .login-card{background:rgba(26,8,56,.85);border:1px solid rgba(107,50,200,.35);border-radius:20px;padding:48px 44px;width:100%;max-width:420px;backdrop-filter:blur(20px);box-shadow:0 32px 80px rgba(0,0,0,.5);}
 .login-logo{display:flex;align-items:center;gap:12px;margin-bottom:32px;}
-.ll-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--purple),var(--purple2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold3);}
+.ll-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--purple),var(--purple2));border-radius:10px;display:flex;align-items:center;justify-content:center;}
 .ll-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#fff;}
 .ll-name em{color:var(--gold3);font-style:normal;}
 .ll-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);}
@@ -38,50 +27,47 @@ body{font-family:'Outfit',sans-serif;background:var(--black);color:var(--white);
 .l-in::placeholder{color:rgba(255,255,255,.2);}
 .l-btn{width:100%;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;padding:13px;border-radius:8px;font-weight:600;font-size:14px;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:.3s;margin-top:8px;box-shadow:0 4px 18px rgba(107,50,200,.3);}
 .l-btn:hover{box-shadow:0 8px 28px rgba(107,50,200,.45);}
+.l-btn:disabled{opacity:.6;cursor:not-allowed;}
 .l-err{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:16px;display:none;}
 .l-err.show{display:block;}
-
-/* ── DASHBOARD LAYOUT ── */
+#invite-panel{display:none;}
+#invite-panel.show{display:block;}
+#normal-login.hidden{display:none;}
+/* DASHBOARD */
 #dashboard{display:none;min-height:100vh;flex-direction:column;}
 #dashboard.show{display:flex;}
 .dash-header{background:rgba(26,8,56,.95);border-bottom:1px solid rgba(107,50,200,.2);padding:0 28px;height:62px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
 .dh-left{display:flex;align-items:center;gap:14px;}
 .dh-logo{display:flex;align-items:center;gap:10px;}
-.dh-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--purple),var(--purple2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold3);}
+.dh-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--purple),var(--purple2));border-radius:8px;display:flex;align-items:center;justify-content:center;}
 .dh-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:#fff;}
 .dh-title em{color:var(--gold3);font-style:normal;}
 .dh-badge{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;background:rgba(201,150,12,.15);border:1px solid rgba(201,150,12,.3);color:var(--gold3);padding:3px 10px;border-radius:100px;}
 .dh-right{display:flex;align-items:center;gap:12px;}
+.dh-user{font-size:11px;color:rgba(255,255,255,.3);font-weight:300;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .dh-preview{background:rgba(107,50,200,.2);border:1px solid rgba(107,50,200,.4);color:rgba(255,255,255,.7);padding:7px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;transition:.2s;text-decoration:none;}
 .dh-preview:hover{background:rgba(107,50,200,.35);color:#fff;}
 .dh-logout{background:none;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.45);padding:7px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;transition:.2s;}
 .dh-logout:hover{border-color:rgba(239,68,68,.4);color:#fca5a5;}
-
-/* ── MAIN BODY ── */
+/* LAYOUT */
 .dash-body{display:flex;flex:1;overflow:hidden;height:calc(100vh - 62px);}
-
-/* ── SIDEBAR ── */
 .dash-side{width:220px;background:rgba(17,14,28,.98);border-right:1px solid rgba(107,50,200,.12);padding:20px 12px;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column;gap:4px;}
-.side-section{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.2);padding:14px 10px 6px;margin-top:4px;}
-.side-section:first-child{padding-top:4px;}
-.s-tab{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;transition:.18s;border:none;background:none;width:100%;text-align:left;color:rgba(255,255,255,.5);font-family:'Outfit',sans-serif;font-size:13px;font-weight:400;}
+.side-section{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.2);padding:14px 10px 6px;}
+.s-tab{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;transition:.18s;border:none;background:none;width:100%;text-align:left;color:rgba(255,255,255,.5);font-family:'Outfit',sans-serif;font-size:13px;}
 .s-tab:hover{background:rgba(107,50,200,.1);color:rgba(255,255,255,.8);}
 .s-tab.on{background:rgba(107,50,200,.15);color:#fff;font-weight:600;border-left:2px solid var(--purple2);border-radius:0 8px 8px 0;}
 .s-tab-ic{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
-
-/* ── MAIN PANEL ── */
+.s-tab-badge{margin-left:auto;background:var(--gold);color:var(--black);font-size:10px;font-weight:700;padding:1px 6px;border-radius:100px;min-width:18px;text-align:center;}
 .dash-main{flex:1;overflow-y:auto;padding:28px 32px;background:rgba(13,10,26,.95);}
 .d-section{display:none;}.d-section.on{display:block;}
 .ds-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff;margin-bottom:4px;}
 .ds-title em{color:var(--gold3);font-style:italic;}
 .ds-sub{font-size:13px;color:rgba(255,255,255,.35);margin-bottom:28px;font-weight:300;}
-
-/* ── CARDS ── */
+/* CARDS */
 .d-card{background:rgba(26,8,56,.5);border:1px solid rgba(107,50,200,.2);border-radius:14px;padding:22px 24px;margin-bottom:18px;}
 .d-card-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--purple3);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
 .d-card-title::before{content:'';width:12px;height:1.5px;background:linear-gradient(90deg,var(--purple2),var(--gold2));}
 .d-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.d-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
 .d-field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
 .d-field:last-child{margin-bottom:0;}
 .d-lbl{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.35);}
@@ -91,27 +77,22 @@ body{font-family:'Outfit',sans-serif;background:var(--black);color:var(--white);
 .d-ta{resize:vertical;min-height:72px;}
 .d-sel option{background:var(--black2);color:#fff;}
 input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
-
-/* ── BUTTONS ── */
+/* BUTTONS */
 .d-save{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;padding:10px 24px;border-radius:8px;font-weight:600;font-size:13px;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:.25s;box-shadow:0 2px 12px rgba(107,50,200,.25);}
 .d-save:hover{box-shadow:0 4px 20px rgba(107,50,200,.4);transform:translateY(-1px);}
-.d-save:active{transform:translateY(0);}
-.d-save.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--black);box-shadow:0 2px 12px rgba(201,150,12,.2);}
-.d-save.gold:hover{box-shadow:0 4px 20px rgba(201,150,12,.35);}
+.d-save.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--black);}
 .d-del{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#fca5a5;padding:8px 16px;border-radius:8px;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;transition:.2s;}
 .d-del:hover{background:rgba(239,68,68,.2);}
 .d-add{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#86efac;padding:8px 16px;border-radius:8px;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;transition:.2s;}
 .d-add:hover{background:rgba(34,197,94,.2);}
 .btn-row{display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap;}
-
-/* ── TOAST ── */
-#toast{position:fixed;bottom:28px;right:28px;background:rgba(26,8,56,.95);border:1px solid rgba(107,50,200,.4);border-radius:12px;padding:14px 20px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:.35s;z-index:9999;box-shadow:var(--shadow2);backdrop-filter:blur(12px);max-width:320px;}
+/* TOAST */
+#toast{position:fixed;bottom:28px;right:28px;background:rgba(26,8,56,.95);border:1px solid rgba(107,50,200,.4);border-radius:12px;padding:14px 20px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:.35s;z-index:9999;box-shadow:var(--shadow2);backdrop-filter:blur(12px);max-width:340px;}
 #toast.show{transform:translateY(0);opacity:1;}
 #toast.success{border-color:rgba(34,197,94,.4);color:#86efac;}
 #toast.error{border-color:rgba(239,68,68,.4);color:#fca5a5;}
-.toast-ic{font-size:16px;}
-
-/* ── ITEM LIST (services/products/clients/testimonials) ── */
+#toast.info{border-color:rgba(107,50,200,.5);color:rgba(255,255,255,.85);}
+/* ITEM LIST */
 .item-list{display:flex;flex-direction:column;gap:14px;}
 .item-card{background:rgba(255,255,255,.03);border:1px solid rgba(107,50,200,.15);border-radius:12px;overflow:hidden;}
 .item-card-hdr{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:.2s;}
@@ -124,14 +105,12 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
 .item-card-body{display:none;padding:18px;border-top:1px solid rgba(107,50,200,.12);}
 .item-card.open .item-card-body{display:block;}
 .item-card.open .item-card-toggle{transform:rotate(180deg);}
-
-/* ── COLOR PALETTE EDITOR ── */
+/* COLOR GRID */
 .color-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
 .color-swatch{display:flex;flex-direction:column;gap:6px;}
-.color-preview{height:52px;border-radius:8px;border:1px solid rgba(255,255,255,.1);transition:.2s;}
+.color-preview{height:52px;border-radius:8px;border:1px solid rgba(255,255,255,.1);}
 .color-label{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.4);}
-
-/* ── DASHBOARD HOME ── */
+/* STAT CARDS */
 .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
 .stat-card{background:rgba(26,8,56,.5);border:1px solid rgba(107,50,200,.2);border-radius:14px;padding:20px 22px;}
 .sc-n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--gold3);line-height:1;}
@@ -141,70 +120,113 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
 .ql-card:hover{border-color:rgba(107,50,200,.4);background:rgba(107,50,200,.1);transform:translateY(-2px);}
 .ql-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:3px;}
 .ql-sub{font-size:12px;color:rgba(255,255,255,.3);}
-
-/* ── RESPONSIVE ── */
-@media(max-width:900px){
-  .dash-body{flex-direction:column;}
-  .dash-side{width:100%;height:auto;flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid rgba(107,50,200,.12);padding:10px;gap:4px;overflow-x:auto;}
-  .side-section{display:none;}
-  .s-tab.on{border-left:none;border-bottom:2px solid var(--purple2);border-radius:8px;}
-  .dash-main{padding:20px 16px;}
-  .color-grid{grid-template-columns:1fr 1fr;}
-  .stat-cards{grid-template-columns:1fr 1fr;}
-  .d-grid{grid-template-columns:1fr;}
-}
-@media(max-width:600px){
-  .quick-links{grid-template-columns:1fr;}
-  .stat-cards{grid-template-columns:1fr 1fr;}
-  .dash-header{padding:0 16px;}
-  .dh-badge{display:none;}
-}
+/* MESSAGES */
+.msg-card{background:rgba(255,255,255,.03);border:1px solid rgba(107,50,200,.15);border-radius:12px;padding:16px 20px;margin-bottom:10px;cursor:pointer;transition:.2s;}
+.msg-card:hover{border-color:rgba(107,50,200,.3);background:rgba(107,50,200,.05);}
+.msg-card.unread{border-left:3px solid var(--gold2);}
+.msg-card.replied-tag::after{content:'✓ Replied';font-size:10px;font-weight:600;letter-spacing:.5px;color:#86efac;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);padding:2px 8px;border-radius:4px;margin-left:8px;}
+.msg-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.msg-from{font-size:14px;font-weight:600;color:#fff;display:flex;align-items:center;flex-wrap:wrap;gap:6px;}
+.msg-time{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;}
+.msg-email-a{color:var(--gold2);text-decoration:none;font-size:12px;}
+.msg-email-a:hover{text-decoration:underline;}
+.msg-service{font-size:10px;background:rgba(107,50,200,.2);color:var(--purple3);padding:2px 8px;border-radius:4px;font-weight:600;letter-spacing:.5px;}
+.msg-preview{font-size:13px;color:rgba(255,255,255,.45);margin-top:6px;line-height:1.5;}
+.msg-body{display:none;margin-top:14px;padding-top:14px;border-top:1px solid rgba(107,50,200,.12);}
+.msg-card.open .msg-body{display:block;}
+.msg-full{font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;white-space:pre-wrap;background:rgba(0,0,0,.15);border-radius:8px;padding:14px;margin-bottom:16px;}
+.msg-reply-area{margin-top:14px;}
+.msg-reply-ta{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(107,50,200,.3);border-radius:8px;padding:11px 14px;color:#fff;font-family:'Outfit',sans-serif;font-size:13px;outline:none;resize:vertical;min-height:90px;transition:.2s;}
+.msg-reply-ta:focus{border-color:var(--purple2);background:rgba(107,50,200,.08);}
+.msg-reply-ta::placeholder{color:rgba(255,255,255,.2);}
+.msg-actions{display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap;}
+.btn-reply{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;padding:9px 20px;border-radius:8px;font-weight:600;font-size:13px;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:.25s;}
+.btn-reply:hover{box-shadow:0 4px 16px rgba(107,50,200,.4);}
+.btn-reply:disabled{opacity:.6;cursor:not-allowed;}
+/* USERS */
+.users-table{width:100%;border-collapse:collapse;}
+.users-table th{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(107,50,200,.15);}
+.users-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(107,50,200,.08);}
+.users-table tr:last-child td{border-bottom:none;}
+.u-badge{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:4px;}
+.u-badge.admin{background:rgba(201,150,12,.15);color:var(--gold3);border:1px solid rgba(201,150,12,.3);}
+.u-badge.editor{background:rgba(107,50,200,.15);color:var(--purple3);border:1px solid rgba(107,50,200,.3);}
+.invite-url-box{background:rgba(255,255,255,.05);border:1px solid rgba(107,50,200,.25);border-radius:8px;padding:12px 14px;font-family:'Space Mono',monospace;font-size:12px;color:rgba(255,255,255,.7);word-break:break-all;margin-top:12px;}
+.copy-btn{background:rgba(107,50,200,.2);border:1px solid rgba(107,50,200,.35);color:rgba(255,255,255,.7);padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;transition:.2s;margin-top:8px;}
+.copy-btn:hover{background:rgba(107,50,200,.35);color:#fff;}
+/* RESPONSIVE */
+@media(max-width:900px){.dash-body{flex-direction:column;}.dash-side{width:100%;height:auto;flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid rgba(107,50,200,.12);padding:10px;gap:4px;overflow-x:auto;}.side-section{display:none;}.dash-main{padding:20px 16px;}.color-grid{grid-template-columns:1fr 1fr;}.stat-cards{grid-template-columns:1fr 1fr;}.d-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.quick-links{grid-template-columns:1fr;}.stat-cards{grid-template-columns:1fr 1fr;}.dash-header{padding:0 16px;}.dh-badge,.dh-user{display:none;}.login-card{padding:32px 24px;}}
 </style>
 </head>
 <body>
 
-<!-- ══ LOGIN SCREEN ══ -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
     <div class="login-logo">
-      <div class="ll-icon">JS</div>
+      <div class="ll-icon">
+        <svg viewBox="0 0 36 36" fill="none" width="36" height="36">
+          <rect width="36" height="36" rx="8" fill="url(#lg1)"/>
+          <path d="M10 12h6v8a4 4 0 0 1-4 4H9" stroke="#F5CE6A" stroke-width="2" stroke-linecap="round"/>
+          <path d="M18 12h8l-4 6h4l-5 8" stroke="#E4AF24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="28" cy="26" r="2" fill="#C9960C"/>
+          <defs><linearGradient id="lg1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop stop-color="#4B1D8F"/><stop offset="1" stop-color="#6B32C8"/></linearGradient></defs>
+        </svg>
+      </div>
       <div>
         <div class="ll-name">Joshlee <em>Solutions</em> Africa</div>
         <div class="ll-sub">Admin Portal</div>
       </div>
     </div>
-    <div class="login-title">Sign In</div>
-    <div class="login-sub">Access the site management dashboard</div>
-    <div class="l-err" id="login-err">Invalid username or password. Please try again.</div>
-    <div class="l-field"><label class="l-lbl">Username</label><input class="l-in" id="l-user" placeholder="admin" type="text" autocomplete="username"></div>
-    <div class="l-field"><label class="l-lbl">Password</label><input class="l-in" id="l-pass" placeholder="••••••••" type="password" autocomplete="current-password"></div>
-    <button class="l-btn" id="l-submit">Sign In →</button>
+    <div id="normal-login">
+      <div class="login-title">Sign In</div>
+      <div class="login-sub">Access the site management dashboard</div>
+      <div class="l-err" id="login-err"></div>
+      <div class="l-field"><label class="l-lbl">Email Address</label><input class="l-in" id="l-email" type="email" placeholder="admin@joshleesafrica.com" autocomplete="email"></div>
+      <div class="l-field"><label class="l-lbl">Password</label><input class="l-in" id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+      <button class="l-btn" id="l-submit">Sign In →</button>
+    </div>
+    <div id="invite-panel">
+      <div class="login-title">Accept Invitation</div>
+      <div class="login-sub" id="invite-sub">Set a password to activate your account</div>
+      <div class="l-err" id="invite-err"></div>
+      <div class="l-field"><label class="l-lbl">New Password (min 8 chars)</label><input class="l-in" id="inv-pass" type="password" placeholder="••••••••"></div>
+      <div class="l-field"><label class="l-lbl">Confirm Password</label><input class="l-in" id="inv-pass2" type="password" placeholder="••••••••"></div>
+      <button class="l-btn" id="inv-submit">Activate Account →</button>
+      <button style="width:100%;background:none;border:none;color:rgba(255,255,255,.3);margin-top:12px;font-size:12px;cursor:pointer;" onclick="showNormalLogin()">← Back to login</button>
+    </div>
   </div>
 </div>
 
-<!-- ══ DASHBOARD ══ -->
+<!-- DASHBOARD -->
 <div id="dashboard">
   <header class="dash-header">
     <div class="dh-left">
       <div class="dh-logo">
-        <div class="dh-icon">JS</div>
+        <div class="dh-icon">
+          <svg viewBox="0 0 34 34" fill="none" width="34" height="34">
+            <path d="M9 11h5v7a3.5 3.5 0 0 1-3.5 3.5H8" stroke="#F5CE6A" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M17 11h7l-3.5 5.5H24l-4.5 7" stroke="#E4AF24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="26" cy="24" r="2" fill="#C9960C"/>
+          </svg>
+        </div>
         <div class="dh-title">JLSA <em>Admin</em></div>
       </div>
       <span class="dh-badge">Dashboard</span>
     </div>
     <div class="dh-right">
+      <span class="dh-user" id="dh-user-email"></span>
       <a href="/" target="_blank" class="dh-preview">↗ Preview Site</a>
       <button class="dh-logout" id="logout-btn">Sign Out</button>
     </div>
   </header>
-
   <div class="dash-body">
-    <!-- SIDEBAR -->
     <aside class="dash-side">
       <div class="side-section">Overview</div>
       <button class="s-tab on" data-tab="home"><span class="s-tab-ic">🏠</span>Dashboard</button>
-
       <div class="side-section">Content</div>
+      <button class="s-tab" data-tab="nav"><span class="s-tab-ic">🔗</span>Navigation & Logo</button>
       <button class="s-tab" data-tab="hero"><span class="s-tab-ic">✨</span>Hero Section</button>
       <button class="s-tab" data-tab="about"><span class="s-tab-ic">🏢</span>About</button>
       <button class="s-tab" data-tab="services"><span class="s-tab-ic">⚙️</span>Services</button>
@@ -213,13 +235,15 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
       <button class="s-tab" data-tab="testimonials"><span class="s-tab-ic">💬</span>Testimonials</button>
       <button class="s-tab" data-tab="contact"><span class="s-tab-ic">📞</span>Contact Info</button>
       <button class="s-tab" data-tab="pullquote"><span class="s-tab-ic">💡</span>Pull Quote</button>
-
       <div class="side-section">Appearance</div>
-      <button class="s-tab" data-tab="theme"><span class="s-tab-ic">🎨</span>Theme &amp; Colors</button>
+      <button class="s-tab" data-tab="theme"><span class="s-tab-ic">🎨</span>Theme & Colors</button>
       <button class="s-tab" data-tab="typography"><span class="s-tab-ic">Aa</span>Typography</button>
+      <div class="side-section">Inbox</div>
+      <button class="s-tab" data-tab="messages"><span class="s-tab-ic">📬</span>Messages<span class="s-tab-badge" id="msg-count" style="display:none;"></span></button>
+      <div class="side-section">Account</div>
+      <button class="s-tab" data-tab="users" id="users-tab"><span class="s-tab-ic">👥</span>Users & Invites</button>
+      <button class="s-tab" data-tab="security"><span class="s-tab-ic">🔒</span>Change Password</button>
     </aside>
-
-    <!-- MAIN CONTENT -->
     <main class="dash-main">
 
       <!-- HOME -->
@@ -234,51 +258,77 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
         </div>
         <div class="d-card">
           <div class="d-card-title">Quick Access</div>
-          <div class="quick-links" id="quick-links">
+          <div class="quick-links">
+            <button class="ql-card" data-goto="nav"><div class="ql-title">🔗 Navigation & Logo</div><div class="ql-sub">Edit logo text, nav links</div></button>
             <button class="ql-card" data-goto="hero"><div class="ql-title">✨ Hero Section</div><div class="ql-sub">Edit headline, tagline, description</div></button>
-            <button class="ql-card" data-goto="services"><div class="ql-title">⚙️ Services</div><div class="ql-sub">Manage all 8 service cards</div></button>
-            <button class="ql-card" data-goto="products"><div class="ql-title">📦 Products</div><div class="ql-sub">Edit product offerings</div></button>
+            <button class="ql-card" data-goto="services"><div class="ql-title">⚙️ Services</div><div class="ql-sub">Manage all service cards</div></button>
             <button class="ql-card" data-goto="theme"><div class="ql-title">🎨 Theme Colors</div><div class="ql-sub">Change brand colors live</div></button>
-            <button class="ql-card" data-goto="clients"><div class="ql-title">🤝 Clients</div><div class="ql-sub">Add or edit client logos</div></button>
-            <button class="ql-card" data-goto="contact"><div class="ql-title">📞 Contact Info</div><div class="ql-sub">Phone, email, address</div></button>
+            <button class="ql-card" data-goto="messages"><div class="ql-title">📬 Messages</div><div class="ql-sub">View & reply to enquiries</div></button>
+            <button class="ql-card" data-goto="users"><div class="ql-title">👥 Team & Invites</div><div class="ql-sub">Invite users by email</div></button>
           </div>
+        </div>
+      </div>
+
+      <!-- NAV -->
+      <div class="d-section" data-sec="nav">
+        <div class="ds-title">Navigation <em>&amp; Logo</em></div>
+        <div class="ds-sub">Edit the site logo text, tagline, and navigation links.</div>
+        <div class="d-card">
+          <div class="d-card-title">Logo Text</div>
+          <div class="d-grid">
+            <div class="d-field"><label class="d-lbl">Company Name</label><input class="d-in" id="e-nav-name" placeholder="Joshlee Solutions Africa"></div>
+            <div class="d-field"><label class="d-lbl">Logo Tagline</label><input class="d-in" id="e-nav-tagline" placeholder="Developing Solutions for The Future"></div>
+          </div>
+          <div class="btn-row"><button class="d-save" onclick="saveSection('nav')">Save Logo</button></div>
+        </div>
+        <div class="d-card">
+          <div class="d-card-title">Navigation Links</div>
+          <div id="nav-links-list"></div>
+          <div class="btn-row"><button class="d-save" onclick="saveSection('nav')">Save Nav Links</button></div>
+        </div>
+        <div class="d-card">
+          <div class="d-card-title">CTA Button</div>
+          <div class="d-grid">
+            <div class="d-field"><label class="d-lbl">Button Label</label><input class="d-in" id="e-nav-cta" placeholder="Get in Touch"></div>
+            <div class="d-field"><label class="d-lbl">Button Link</label><input class="d-in" id="e-nav-ctahref" placeholder="#contact"></div>
+          </div>
+          <div class="btn-row"><button class="d-save" onclick="saveSection('nav')">Save CTA</button></div>
         </div>
       </div>
 
       <!-- HERO -->
       <div class="d-section" data-sec="hero">
         <div class="ds-title">Hero <em>Section</em></div>
-        <div class="ds-sub">The main banner at the top of the page. Changes appear immediately when saved.</div>
+        <div class="ds-sub">The main banner at the top of the page.</div>
         <div class="d-card">
           <div class="d-card-title">Eyebrow Tag</div>
-          <div class="d-field"><label class="d-lbl">Tag Line (small text above headline)</label><input class="d-in" id="e-tag" placeholder="IT Consultancy · Nairobi, Kenya"></div>
-          <div class="btn-row"><button class="d-save" onclick="saveSection('hero')">Save Changes</button></div>
+          <div class="d-field"><label class="d-lbl">Tag Line</label><input class="d-in" id="e-tag" placeholder="IT Consultancy · Nairobi, Kenya"></div>
+          <div class="btn-row"><button class="d-save" onclick="saveSection('hero')">Save</button></div>
         </div>
         <div class="d-card">
-          <div class="d-card-title">Main Headline</div>
+          <div class="d-card-title">Headline</div>
           <div class="d-grid">
-            <div class="d-field"><label class="d-lbl">Headline (first word)</label><input class="d-in" id="e-h1" placeholder="Developing"></div>
-            <div class="d-field"><label class="d-lbl">Italic Accent Word</label><input class="d-in" id="e-h1-em" placeholder="Solutions"></div>
-            <div class="d-field"><label class="d-lbl">Subtitle (smaller line)</label><input class="d-in" id="e-h1-small" placeholder="for The Future"></div>
+            <div class="d-field"><label class="d-lbl">Headline Word</label><input class="d-in" id="e-h1" placeholder="Developing"></div>
+            <div class="d-field"><label class="d-lbl">Italic Accent</label><input class="d-in" id="e-h1-em" placeholder="Solutions"></div>
+            <div class="d-field"><label class="d-lbl">Subtitle Line</label><input class="d-in" id="e-h1-small" placeholder="for The Future"></div>
           </div>
-          <div class="btn-row"><button class="d-save" onclick="saveSection('hero')">Save Changes</button></div>
+          <div class="btn-row"><button class="d-save" onclick="saveSection('hero')">Save</button></div>
         </div>
         <div class="d-card">
-          <div class="d-card-title">Description Paragraph</div>
-          <div class="d-field"><label class="d-lbl">Hero Description</label><textarea class="d-ta" id="e-desc" rows="4" placeholder="Main hero description text..."></textarea></div>
-          <div class="btn-row"><button class="d-save" onclick="saveSection('hero')">Save Changes</button></div>
+          <div class="d-card-title">Description</div>
+          <div class="d-field"><textarea class="d-ta" id="e-desc" rows="4"></textarea></div>
+          <div class="btn-row"><button class="d-save" onclick="saveSection('hero')">Save</button></div>
         </div>
       </div>
 
       <!-- ABOUT -->
       <div class="d-section" data-sec="about">
         <div class="ds-title">About <em>Section</em></div>
-        <div class="ds-sub">The company overview section with stats and mission/vision.</div>
         <div class="d-card">
-          <div class="d-card-title">Section Header</div>
+          <div class="d-card-title">Content</div>
           <div class="d-grid">
-            <div class="d-field"><label class="d-lbl">Section Label</label><input class="d-in" id="e-al" placeholder="Who We Are"></div>
-            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-ah" placeholder="Your Trusted IT Partner in East Africa"></div>
+            <div class="d-field"><label class="d-lbl">Section Label</label><input class="d-in" id="e-al"></div>
+            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-ah"></div>
           </div>
           <div class="d-field"><label class="d-lbl">Body Paragraph</label><textarea class="d-ta" id="e-ap" rows="4"></textarea></div>
           <div class="btn-row"><button class="d-save" onclick="saveSection('about')">Save Changes</button></div>
@@ -288,15 +338,14 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
       <!-- SERVICES -->
       <div class="d-section" data-sec="services">
         <div class="ds-title">Services <em>Section</em></div>
-        <div class="ds-sub">Manage all service cards shown on the website.</div>
         <div class="d-card">
           <div class="d-card-title">Section Header</div>
           <div class="d-grid">
-            <div class="d-field"><label class="d-lbl">Label</label><input class="d-in" id="e-sl" placeholder="What We Do"></div>
-            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-sh" placeholder="Our Core Services"></div>
+            <div class="d-field"><label class="d-lbl">Label</label><input class="d-in" id="e-sl"></div>
+            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-sh"></div>
           </div>
           <div class="d-field"><label class="d-lbl">Description</label><textarea class="d-ta" id="e-sp" rows="3"></textarea></div>
-          <div class="btn-row"><button class="d-save" onclick="saveSection('services')">Save Section Header</button></div>
+          <div class="btn-row"><button class="d-save" onclick="saveSection('services')">Save Header</button></div>
         </div>
         <div class="d-card">
           <div class="d-card-title">Service Cards</div>
@@ -307,15 +356,14 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
       <!-- PRODUCTS -->
       <div class="d-section" data-sec="products">
         <div class="ds-title">Products <em>&amp; Offerings</em></div>
-        <div class="ds-sub">Edit the horizontally scrolling product cards.</div>
         <div class="d-card">
           <div class="d-card-title">Section Header</div>
           <div class="d-grid">
-            <div class="d-field"><label class="d-lbl">Label</label><input class="d-in" id="e-pl" placeholder="IT Solutions"></div>
-            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-ph" placeholder="Specialised Offerings"></div>
+            <div class="d-field"><label class="d-lbl">Label</label><input class="d-in" id="e-pl"></div>
+            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-ph"></div>
           </div>
           <div class="d-field"><label class="d-lbl">Description</label><textarea class="d-ta" id="e-pp" rows="2"></textarea></div>
-          <div class="btn-row"><button class="d-save" onclick="saveSection('products')">Save Section Header</button></div>
+          <div class="btn-row"><button class="d-save" onclick="saveSection('products')">Save Header</button></div>
         </div>
         <div class="d-card">
           <div class="d-card-title">Product Cards</div>
@@ -326,12 +374,11 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
       <!-- CLIENTS -->
       <div class="d-section" data-sec="clients">
         <div class="ds-title">Clients <em>Section</em></div>
-        <div class="ds-sub">Manage the scrolling client cards marquee.</div>
         <div class="d-card">
           <div class="d-card-title">Section Header</div>
           <div class="d-grid">
-            <div class="d-field"><label class="d-lbl">Label</label><input class="d-in" id="e-cll" placeholder="Trusted By"></div>
-            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-clh" placeholder="Clients Who Count on Us"></div>
+            <div class="d-field"><label class="d-lbl">Label</label><input class="d-in" id="e-cll"></div>
+            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-clh"></div>
           </div>
           <div class="btn-row"><button class="d-save" onclick="saveSection('clients')">Save Header</button></div>
         </div>
@@ -344,12 +391,11 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
       <!-- TESTIMONIALS -->
       <div class="d-section" data-sec="testimonials">
         <div class="ds-title">Testimonials <em>Section</em></div>
-        <div class="ds-sub">Client quotes and reviews displayed on the site.</div>
         <div class="d-card">
           <div class="d-card-title">Section Header</div>
           <div class="d-grid">
-            <div class="d-field"><label class="d-lbl">Label</label><input class="d-in" id="e-tl" placeholder="Testimonials"></div>
-            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-th" placeholder="What Our Clients Say"></div>
+            <div class="d-field"><label class="d-lbl">Label</label><input class="d-in" id="e-tl"></div>
+            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-th"></div>
           </div>
           <div class="btn-row"><button class="d-save" onclick="saveSection('testimonials')">Save Header</button></div>
         </div>
@@ -362,12 +408,11 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
       <!-- CONTACT -->
       <div class="d-section" data-sec="contact">
         <div class="ds-title">Contact <em>Information</em></div>
-        <div class="ds-sub">Phone, email, address and contact section copy.</div>
         <div class="d-card">
           <div class="d-card-title">Section Copy</div>
           <div class="d-grid">
-            <div class="d-field"><label class="d-lbl">Label</label><input class="d-in" id="e-ctl" placeholder="Contact Us"></div>
-            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-cth" placeholder="Let's Start a Conversation"></div>
+            <div class="d-field"><label class="d-lbl">Label</label><input class="d-in" id="e-ctl"></div>
+            <div class="d-field"><label class="d-lbl">Heading</label><input class="d-in" id="e-cth"></div>
           </div>
           <div class="d-field"><label class="d-lbl">Description</label><textarea class="d-ta" id="e-ctp" rows="3"></textarea></div>
           <div class="btn-row"><button class="d-save" onclick="saveSection('contact')">Save Changes</button></div>
@@ -375,10 +420,10 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
         <div class="d-card">
           <div class="d-card-title">Contact Details</div>
           <div class="d-grid">
-            <div class="d-field"><label class="d-lbl">📞 Phone</label><input class="d-in" id="e-phone" placeholder="0739 293 691"></div>
-            <div class="d-field"><label class="d-lbl">✉️ Email</label><input class="d-in" id="e-email" placeholder="email@example.com"></div>
-            <div class="d-field"><label class="d-lbl">🌐 Website</label><input class="d-in" id="e-website" placeholder="joshleesafrica.com"></div>
-            <div class="d-field"><label class="d-lbl">📍 Location</label><input class="d-in" id="e-location" placeholder="Nairobi, Kenya"></div>
+            <div class="d-field"><label class="d-lbl">📞 Phone</label><input class="d-in" id="e-phone"></div>
+            <div class="d-field"><label class="d-lbl">✉️ Email</label><input class="d-in" id="e-email"></div>
+            <div class="d-field"><label class="d-lbl">🌐 Website</label><input class="d-in" id="e-website"></div>
+            <div class="d-field"><label class="d-lbl">📍 Location</label><input class="d-in" id="e-location"></div>
           </div>
           <div class="btn-row"><button class="d-save" onclick="saveSection('contact')">Save Changes</button></div>
         </div>
@@ -387,11 +432,10 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
       <!-- PULL QUOTE -->
       <div class="d-section" data-sec="pullquote">
         <div class="ds-title">Pull <em>Quote</em></div>
-        <div class="ds-sub">The large italic quote in the dark section between Technology and Stats.</div>
         <div class="d-card">
           <div class="d-card-title">Quote Content</div>
           <div class="d-field"><label class="d-lbl">Quote Text</label><textarea class="d-ta" id="e-pq" rows="4"></textarea></div>
-          <div class="d-field"><label class="d-lbl">Attribution Line</label><input class="d-in" id="e-pqa" placeholder="— Joshlee Solutions Africa · Nairobi, Kenya"></div>
+          <div class="d-field"><label class="d-lbl">Attribution</label><input class="d-in" id="e-pqa"></div>
           <div class="btn-row"><button class="d-save" onclick="saveSection('pullquote')">Save Changes</button></div>
         </div>
       </div>
@@ -399,22 +443,22 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
       <!-- THEME -->
       <div class="d-section" data-sec="theme">
         <div class="ds-title">Theme <em>&amp; Colors</em></div>
-        <div class="ds-sub">Change the brand colors across the entire site. Updates apply live when saved.</div>
+        <div class="ds-sub">Change brand colors across the entire site.</div>
         <div class="d-card">
           <div class="d-card-title">Brand Colors</div>
-          <div class="color-grid" id="color-grid">
+          <div class="color-grid">
             <div class="color-swatch"><div class="color-preview" id="prev-purple"></div><div class="color-label">Primary Purple</div><input type="color" class="d-in" id="e-purple" style="margin-top:4px;"></div>
             <div class="color-swatch"><div class="color-preview" id="prev-purple2"></div><div class="color-label">Purple Accent</div><input type="color" class="d-in" id="e-purple2" style="margin-top:4px;"></div>
             <div class="color-swatch"><div class="color-preview" id="prev-gold"></div><div class="color-label">Primary Gold</div><input type="color" class="d-in" id="e-gold" style="margin-top:4px;"></div>
             <div class="color-swatch"><div class="color-preview" id="prev-gold2"></div><div class="color-label">Gold Accent</div><input type="color" class="d-in" id="e-gold2" style="margin-top:4px;"></div>
             <div class="color-swatch"><div class="color-preview" id="prev-black"></div><div class="color-label">Dark / Black</div><input type="color" class="d-in" id="e-black" style="margin-top:4px;"></div>
-            <div class="color-swatch"><div class="color-preview" id="prev-white"></div><div class="color-label">Background White</div><input type="color" class="d-in" id="e-white" style="margin-top:4px;"></div>
-            <div class="color-swatch"><div class="color-preview" id="prev-cream"></div><div class="color-label">Cream / Section BG</div><input type="color" class="d-in" id="e-cream" style="margin-top:4px;"></div>
+            <div class="color-swatch"><div class="color-preview" id="prev-white"></div><div class="color-label">White / BG</div><input type="color" class="d-in" id="e-white" style="margin-top:4px;"></div>
+            <div class="color-swatch"><div class="color-preview" id="prev-cream"></div><div class="color-label">Cream / Section</div><input type="color" class="d-in" id="e-cream" style="margin-top:4px;"></div>
             <div class="color-swatch"><div class="color-preview" id="prev-ink"></div><div class="color-label">Text / Ink</div><input type="color" class="d-in" id="e-ink" style="margin-top:4px;"></div>
           </div>
           <div class="btn-row">
             <button class="d-save gold" onclick="saveSection('theme')">Apply Theme Colors</button>
-            <button class="d-save" onclick="resetTheme()" style="background:rgba(255,255,255,.07);box-shadow:none;">Reset to Default</button>
+            <button class="d-save" onclick="resetTheme()" style="background:rgba(255,255,255,.07);box-shadow:none;">Reset Default</button>
           </div>
         </div>
       </div>
@@ -422,7 +466,6 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
       <!-- TYPOGRAPHY -->
       <div class="d-section" data-sec="typography">
         <div class="ds-title">Typography <em>Settings</em></div>
-        <div class="ds-sub">Coming soon — font size and family overrides per section.</div>
         <div class="d-card">
           <div class="d-card-title">Font Families</div>
           <div class="d-grid">
@@ -431,7 +474,6 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
                 <option value="Cormorant Garamond">Cormorant Garamond (current)</option>
                 <option value="Playfair Display">Playfair Display</option>
                 <option value="DM Serif Display">DM Serif Display</option>
-                <option value="Abril Fatface">Abril Fatface</option>
               </select>
             </div>
             <div class="d-field"><label class="d-lbl">Body Font</label>
@@ -439,7 +481,6 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
                 <option value="Outfit">Outfit (current)</option>
                 <option value="DM Sans">DM Sans</option>
                 <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
-                <option value="Nunito">Nunito</option>
               </select>
             </div>
           </div>
@@ -447,488 +488,455 @@ input[type="color"].d-in{height:42px;padding:4px 8px;cursor:pointer;}
         </div>
       </div>
 
+      <!-- MESSAGES INBOX -->
+      <div class="d-section" data-sec="messages">
+        <div class="ds-title">Messages <em>Inbox</em></div>
+        <div class="ds-sub">Contact form submissions. Click a message to expand and reply.</div>
+        <div class="d-card">
+          <div class="d-card-title" style="justify-content:space-between;">
+            <span style="display:flex;align-items:center;gap:8px;"><span style="content:'';width:12px;height:1.5px;background:linear-gradient(90deg,var(--purple2),var(--gold2));display:inline-block;"></span>All Messages</span>
+            <button class="d-del" style="font-size:11px;padding:5px 14px;" onclick="clearAllMessages()">🗑 Clear All</button>
+          </div>
+          <div id="messages-list"><div style="color:rgba(255,255,255,.3);font-size:13px;padding:16px 0;">Loading messages...</div></div>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div class="d-section" data-sec="users">
+        <div class="ds-title">Users <em>&amp; Invites</em></div>
+        <div class="ds-sub">Invite team members to manage the site by email.</div>
+        <div class="d-card">
+          <div class="d-card-title">Invite New User</div>
+          <div class="d-grid">
+            <div class="d-field"><label class="d-lbl">Email Address</label><input class="d-in" id="inv-email" type="email" placeholder="colleague@company.com"></div>
+            <div class="d-field"><label class="d-lbl">Role</label>
+              <select class="d-sel" id="inv-role">
+                <option value="editor">Editor — can edit content</option>
+                <option value="admin">Admin — full access</option>
+              </select>
+            </div>
+          </div>
+          <div class="btn-row"><button class="d-save" onclick="sendInvite()">Send Invitation →</button></div>
+          <div id="invite-result" style="margin-top:12px;display:none;"></div>
+        </div>
+        <div class="d-card">
+          <div class="d-card-title">Team Members</div>
+          <div id="users-list"><div style="color:rgba(255,255,255,.3);font-size:13px;padding:16px 0;">Loading...</div></div>
+        </div>
+      </div>
+
+      <!-- SECURITY -->
+      <div class="d-section" data-sec="security">
+        <div class="ds-title">Change <em>Password</em></div>
+        <div class="d-card">
+          <div class="d-card-title">Update Password</div>
+          <div class="d-field"><label class="d-lbl">Current Password</label><input class="d-in" id="pw-current" type="password" placeholder="••••••••"></div>
+          <div class="d-field"><label class="d-lbl">New Password (min 8 chars)</label><input class="d-in" id="pw-new" type="password" placeholder="••••••••"></div>
+          <div class="d-field"><label class="d-lbl">Confirm New Password</label><input class="d-in" id="pw-confirm" type="password" placeholder="••••••••"></div>
+          <div id="pw-msg" style="display:none;padding:10px 14px;border-radius:8px;font-size:13px;margin-top:12px;"></div>
+          <div class="btn-row"><button class="d-save" onclick="changePassword()">Update Password</button></div>
+        </div>
+      </div>
+
     </main>
   </div>
 </div>
 
-<!-- TOAST -->
-<div id="toast"><span class="toast-ic">✓</span><span id="toast-msg">Changes saved successfully!</span></div>
+<div id="toast"><span class="toast-ic">✓</span><span id="toast-msg"></span></div>
 
 <script>
-/* ── CONSTANTS ── */
-const API = '';
-let SESSION_TOKEN = localStorage.getItem('jlsa_token') || null;
+const API='';
+let SESSION_TOKEN=localStorage.getItem('jlsa_token')||null;
+let SESSION_ROLE=localStorage.getItem('jlsa_role')||null;
+let D=null;
 
-/* ── HELPERS ── */
-const g = id => document.getElementById(id);
-const val = id => { const e = g(id); return e ? e.value : ''; };
-const setVal = (id, v) => { const e = g(id); if(e) e.value = v || ''; };
+const g=id=>document.getElementById(id);
+const val=id=>{const e=g(id);return e?e.value:'';};
+const setVal=(id,v)=>{const e=g(id);if(e)e.value=v||'';};
+function esc(s){if(s==null)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
-function toast(msg, type='success') {
-  const el = g('toast'), msgEl = g('toast-msg');
-  msgEl.textContent = msg;
-  el.className = `show ${type}`;
-  el.querySelector('.toast-ic').textContent = type==='success' ? '✓' : '✕';
-  setTimeout(() => el.classList.remove('show'), 3000);
+function toast(msg,type='success'){
+  const el=g('toast'),mi=g('toast-msg');
+  mi.textContent=msg;
+  el.className=`show ${type}`;
+  el.querySelector('.toast-ic').textContent=type==='success'?'✓':type==='error'?'✕':'ℹ';
+  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),4000);
 }
 
-/* ── STATE ── */
-let D = null;
-
-/* ── API CALLS ── */
-async function apiGet(path) {
-  const res = await fetch(API + path, {
-    headers: SESSION_TOKEN ? {'Authorization': 'Bearer ' + SESSION_TOKEN} : {}
-  });
-  if (res.status === 401) { logout(); throw new Error('Unauthorized'); }
-  return res.json();
+async function apiGet(p){
+  const r=await fetch(API+p,{headers:SESSION_TOKEN?{'Authorization':'Bearer '+SESSION_TOKEN}:{}});
+  if(r.status===401){logout();throw new Error('Unauthorized');}
+  return r.json();
+}
+async function apiPost(p,body){
+  const r=await fetch(API+p,{method:'POST',headers:{'Content-Type':'application/json',...(SESSION_TOKEN?{'Authorization':'Bearer '+SESSION_TOKEN}:{})},body:JSON.stringify(body)});
+  if(r.status===401){logout();throw new Error('Unauthorized');}
+  return r.json();
+}
+async function apiPatch(p,body){
+  const r=await fetch(API+p,{method:'PATCH',headers:{'Content-Type':'application/json',...(SESSION_TOKEN?{'Authorization':'Bearer '+SESSION_TOKEN}:{})},body:JSON.stringify(body)});
+  if(r.status===401){logout();throw new Error('Unauthorized');}
+  return r.json();
+}
+async function apiDelete(p){
+  const r=await fetch(API+p,{method:'DELETE',headers:SESSION_TOKEN?{'Authorization':'Bearer '+SESSION_TOKEN}:{}});
+  if(r.status===401){logout();throw new Error('Unauthorized');}
+  return r.json();
 }
 
-async function apiPost(path, body) {
-  const res = await fetch(API + path, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(SESSION_TOKEN ? {'Authorization': 'Bearer ' + SESSION_TOKEN} : {})
-    },
-    body: JSON.stringify(body)
-  });
-  if (res.status === 401) { logout(); throw new Error('Unauthorized'); }
-  return res.json();
-}
+/* INVITE DETECTION */
+function getInviteToken(){return new URLSearchParams(window.location.search).get('invite');}
+const inviteToken=getInviteToken();
+if(inviteToken){g('normal-login').classList.add('hidden');g('invite-panel').classList.add('show');}
+function showNormalLogin(){g('normal-login').classList.remove('hidden');g('invite-panel').classList.remove('show');window.history.replaceState({},'',window.location.pathname);}
 
-/* ── LOGIN ── */
-async function doLogin() {
-  const user = val('l-user').trim();
-  const pass = val('l-pass');
-  if (!user || !pass) { showErr('Please enter username and password.'); return; }
-
-  try {
-    const res = await apiPost('/api/admin/login', { username: user, password: pass });
-    if (res.token) {
-      SESSION_TOKEN = res.token;
-      localStorage.setItem('jlsa_token', res.token);
-      g('login-screen').classList.add('hidden');
-      g('dashboard').classList.add('show');
-      await loadContent();
-    } else {
-      showErr(res.message || 'Invalid credentials.');
-    }
-  } catch(e) {
-    showErr('Could not connect to server. Check your connection.');
-  }
-}
-
-function showErr(msg) { const e = g('login-err'); e.textContent = msg; e.classList.add('show'); }
-
-g('l-submit').addEventListener('click', doLogin);
-g('l-user').addEventListener('keydown', e => { if(e.key==='Enter') g('l-pass').focus(); });
-g('l-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
-
-function logout() {
-  SESSION_TOKEN = null;
-  localStorage.removeItem('jlsa_token');
-  g('dashboard').classList.remove('show');
-  g('login-screen').classList.remove('hidden');
-}
-g('logout-btn').addEventListener('click', logout);
-
-/* ── CHECK EXISTING SESSION ── */
-(async function checkSession() {
-  if (!SESSION_TOKEN) return;
-  try {
-    const res = await apiGet('/api/admin/verify');
-    if (res.ok) {
-      g('login-screen').classList.add('hidden');
-      g('dashboard').classList.add('show');
-      await loadContent();
-    } else {
-      logout();
-    }
-  } catch(e) { logout(); }
-})();
-
-/* ── LOAD CONTENT ── */
-async function loadContent() {
-  try {
-    const data = await apiGet('/api/content');
-    D = data;
-    populateForms();
-    renderItemLists();
-    updateStats();
-  } catch(e) {
-    toast('Failed to load content', 'error');
-  }
-}
-
-/* ── POPULATE FORMS ── */
-function populateForms() {
-  if(!D) return;
-
-  // Hero
-  setVal('e-tag', D.hero?.tag);
-  setVal('e-h1', D.hero?.headline);
-  setVal('e-h1-em', D.hero?.headlineItalic);
-  setVal('e-h1-small', D.hero?.headlineSmall);
-  setVal('e-desc', D.hero?.description);
-
-  // About
-  setVal('e-al', D.about?.label);
-  setVal('e-ah', D.about?.heading);
-  setVal('e-ap', D.about?.body);
-
-  // Services
-  setVal('e-sl', D.services?.label);
-  setVal('e-sh', D.services?.heading);
-  setVal('e-sp', D.services?.description);
-
-  // Products
-  setVal('e-pl', D.products?.label);
-  setVal('e-ph', D.products?.heading);
-  setVal('e-pp', D.products?.description);
-
-  // Clients
-  setVal('e-cll', D.clients?.label);
-  setVal('e-clh', D.clients?.heading);
-
-  // Testimonials
-  setVal('e-tl', D.testimonials?.label);
-  setVal('e-th', D.testimonials?.heading);
-
-  // Contact
-  setVal('e-ctl', D.contact?.label);
-  setVal('e-cth', D.contact?.heading);
-  setVal('e-ctp', D.contact?.description);
-  setVal('e-phone', D.contact?.phone);
-  setVal('e-email', D.contact?.email);
-  setVal('e-website', D.contact?.website);
-  setVal('e-location', D.contact?.location);
-
-  // Pullquote
-  setVal('e-pq', D.pullquote?.text);
-  setVal('e-pqa', D.pullquote?.attr);
-
-  // Theme
-  const t = D.theme || {};
-  const colorFields = ['purple','purple2','gold','gold2','black','white','cream','ink'];
-  colorFields.forEach(k => {
-    setVal('e-' + k, t[k] || '');
-    const prev = g('prev-' + k);
-    if(prev && t[k]) prev.style.background = t[k];
-  });
-  // Live preview on color input
-  colorFields.forEach(k => {
-    const inp = g('e-' + k);
-    if(inp) inp.addEventListener('input', () => {
-      const prev = g('prev-' + k);
-      if(prev) prev.style.background = inp.value;
-    });
-  });
-}
-
-/* ── RENDER ITEM LISTS ── */
-function renderItemLists() {
-  if(!D) return;
-  renderServices();
-  renderProducts();
-  renderClients();
-  renderTestimonials();
-}
-
-function renderServices() {
-  const items = D.services?.items || [];
-  const html = items.map((sv, i) => `
-    <div class="item-card" id="svc-card-${i}">
-      <div class="item-card-hdr" onclick="toggleCard('svc-card-${i}')">
-        <div class="item-card-hdr-left">
-          <div class="item-ic-badge">${sv.ic}</div>
-          <div><div class="item-card-name">${sv.t}</div><div class="item-card-sub">${sv.tags?.join(', ')}</div></div>
-        </div>
-        <span class="item-card-toggle">▼</span>
-      </div>
-      <div class="item-card-body">
-        <div class="d-grid">
-          <div class="d-field"><label class="d-lbl">Icon (emoji)</label><input class="d-in" id="si-${i}" value="${sv.ic}"></div>
-          <div class="d-field"><label class="d-lbl">Title</label><input class="d-in" id="st-${i}" value="${sv.t}"></div>
-        </div>
-        <div class="d-field"><label class="d-lbl">Description</label><textarea class="d-ta" id="sd-${i}" rows="3">${sv.d}</textarea></div>
-        <div class="d-field"><label class="d-lbl">Tags (comma separated)</label><input class="d-in" id="stags-${i}" value="${sv.tags?.join(', ')}"></div>
-        <div class="btn-row">
-          <button class="d-save" onclick="saveSvcItem(${i})">Save Service</button>
-        </div>
-      </div>
-    </div>`).join('');
-  const el = g('services-list');
-  if(el) el.innerHTML = html;
-}
-
-function saveSvcItem(i) {
-  D.services.items[i].ic = val(`si-${i}`);
-  D.services.items[i].t = val(`st-${i}`);
-  D.services.items[i].d = val(`sd-${i}`);
-  D.services.items[i].tags = val(`stags-${i}`).split(',').map(s=>s.trim()).filter(Boolean);
-  saveSection('services');
-}
-
-function renderProducts() {
-  const items = D.products?.items || [];
-  const html = items.map((p, i) => `
-    <div class="item-card" id="prod-card-${i}">
-      <div class="item-card-hdr" onclick="toggleCard('prod-card-${i}')">
-        <div class="item-card-hdr-left">
-          <div class="item-ic-badge">${p.ic}</div>
-          <div><div class="item-card-name">${p.t}</div><div class="item-card-sub">${p.f?.length} features</div></div>
-        </div>
-        <span class="item-card-toggle">▼</span>
-      </div>
-      <div class="item-card-body">
-        <div class="d-grid">
-          <div class="d-field"><label class="d-lbl">Icon (emoji)</label><input class="d-in" id="pi-${i}" value="${p.ic}"></div>
-          <div class="d-field"><label class="d-lbl">Title</label><input class="d-in" id="pt-${i}" value="${p.t}"></div>
-        </div>
-        <div class="d-field"><label class="d-lbl">Description</label><textarea class="d-ta" id="pd-${i}" rows="3">${p.d}</textarea></div>
-        <div class="d-field"><label class="d-lbl">Features (one per line)</label><textarea class="d-ta" id="pf-${i}" rows="5">${p.f?.join('\n')}</textarea></div>
-        <div class="btn-row">
-          <button class="d-save" onclick="saveProdItem(${i})">Save Product</button>
-        </div>
-      </div>
-    </div>`).join('');
-  const el = g('products-list');
-  if(el) el.innerHTML = html;
-}
-
-function saveProdItem(i) {
-  D.products.items[i].ic = val(`pi-${i}`);
-  D.products.items[i].t = val(`pt-${i}`);
-  D.products.items[i].d = val(`pd-${i}`);
-  D.products.items[i].f = val(`pf-${i}`).split('\n').map(s=>s.trim()).filter(Boolean);
-  saveSection('products');
-}
-
-function renderClients() {
-  const items = D.clients?.items || [];
-  const html = items.map((c, i) => `
-    <div class="item-card" id="cl-card-${i}">
-      <div class="item-card-hdr" onclick="toggleCard('cl-card-${i}')">
-        <div class="item-card-hdr-left">
-          <div class="item-ic-badge">🤝</div>
-          <div><div class="item-card-name">${c.n}</div><div class="item-card-sub">${c.l} · ${c.t}</div></div>
-        </div>
-        <span class="item-card-toggle">▼</span>
-      </div>
-      <div class="item-card-body">
-        <div class="d-grid">
-          <div class="d-field"><label class="d-lbl">Client Name</label><input class="d-in" id="cn-${i}" value="${c.n}"></div>
-          <div class="d-field"><label class="d-lbl">Location</label><input class="d-in" id="cl-${i}" value="${c.l}"></div>
-          <div class="d-field"><label class="d-lbl">Type / Badge</label><input class="d-in" id="ct-${i}" value="${c.t}"></div>
-        </div>
-        <div class="btn-row">
-          <button class="d-save" onclick="saveClientItem(${i})">Save Client</button>
-          <button class="d-del" onclick="deleteItem('clients',${i})">Delete</button>
-        </div>
-      </div>
-    </div>`).join('');
-  const el = g('clients-list');
-  if(el) el.innerHTML = html;
-}
-
-function saveClientItem(i) {
-  D.clients.items[i].n = val(`cn-${i}`);
-  D.clients.items[i].l = val(`cl-${i}`);
-  D.clients.items[i].t = val(`ct-${i}`);
-  saveSection('clients');
-}
-
-function addClient() {
-  D.clients.items.push({n:'New Client',l:'Location',t:'Type'});
-  renderClients();
-  // auto-open last
-  setTimeout(() => toggleCard(`cl-card-${D.clients.items.length-1}`), 50);
-}
-
-function renderTestimonials() {
-  const items = D.testimonials?.items || [];
-  const html = items.map((t, i) => `
-    <div class="item-card" id="ts-card-${i}">
-      <div class="item-card-hdr" onclick="toggleCard('ts-card-${i}')">
-        <div class="item-card-hdr-left">
-          <div class="item-ic-badge">💬</div>
-          <div><div class="item-card-name">${t.n}</div><div class="item-card-sub">${t.r}</div></div>
-        </div>
-        <span class="item-card-toggle">▼</span>
-      </div>
-      <div class="item-card-body">
-        <div class="d-field"><label class="d-lbl">Quote</label><textarea class="d-ta" id="tq-${i}" rows="3">${t.q}</textarea></div>
-        <div class="d-grid">
-          <div class="d-field"><label class="d-lbl">Name</label><input class="d-in" id="tn-${i}" value="${t.n}"></div>
-          <div class="d-field"><label class="d-lbl">Role / Organisation</label><input class="d-in" id="tr-${i}" value="${t.r}"></div>
-          <div class="d-field"><label class="d-lbl">Initials (avatar)</label><input class="d-in" id="ti-${i}" value="${t.i}" maxlength="3"></div>
-        </div>
-        <div class="btn-row">
-          <button class="d-save" onclick="saveTestimonialItem(${i})">Save</button>
-          <button class="d-del" onclick="deleteItem('testimonials',${i})">Delete</button>
-        </div>
-      </div>
-    </div>`).join('');
-  const el = g('testimonials-list');
-  if(el) el.innerHTML = html;
-}
-
-function saveTestimonialItem(i) {
-  D.testimonials.items[i].q = val(`tq-${i}`);
-  D.testimonials.items[i].n = val(`tn-${i}`);
-  D.testimonials.items[i].r = val(`tr-${i}`);
-  D.testimonials.items[i].i = val(`ti-${i}`);
-  saveSection('testimonials');
-}
-
-function addTestimonial() {
-  D.testimonials.items.push({q:'Write the testimonial quote here.',n:'Client Name',r:'Organisation',i:'CL'});
-  renderTestimonials();
-  setTimeout(() => toggleCard(`ts-card-${D.testimonials.items.length-1}`), 50);
-}
-
-function deleteItem(section, i) {
-  if(!confirm('Delete this item?')) return;
-  if(section === 'clients') D.clients.items.splice(i,1);
-  if(section === 'testimonials') D.testimonials.items.splice(i,1);
-  renderItemLists();
-  saveSection(section);
-}
-
-/* ── TOGGLE ACCORDION ── */
-function toggleCard(id) {
-  const card = g(id);
-  if(!card) return;
-  card.classList.toggle('open');
-}
-
-/* ── SAVE SECTION ── */
-async function saveSection(section) {
-  if(!D) return;
-
-  // Collect fresh values from forms
-  if(section === 'hero') {
-    D.hero = {
-      tag: val('e-tag'),
-      headline: val('e-h1'),
-      headlineItalic: val('e-h1-em'),
-      headlineSmall: val('e-h1-small'),
-      description: val('e-desc')
-    };
-  }
-  if(section === 'about') {
-    D.about = { label: val('e-al'), heading: val('e-ah'), body: val('e-ap') };
-  }
-  if(section === 'services') {
-    D.services.label = val('e-sl');
-    D.services.heading = val('e-sh');
-    D.services.description = val('e-sp');
-  }
-  if(section === 'products') {
-    D.products.label = val('e-pl');
-    D.products.heading = val('e-ph');
-    D.products.description = val('e-pp');
-  }
-  if(section === 'clients') {
-    D.clients.label = val('e-cll');
-    D.clients.heading = val('e-clh');
-  }
-  if(section === 'testimonials') {
-    D.testimonials.label = val('e-tl');
-    D.testimonials.heading = val('e-th');
-  }
-  if(section === 'contact') {
-    D.contact = {
-      label: val('e-ctl'),
-      heading: val('e-cth'),
-      description: val('e-ctp'),
-      phone: val('e-phone'),
-      email: val('e-email'),
-      website: val('e-website'),
-      location: val('e-location')
-    };
-  }
-  if(section === 'pullquote') {
-    D.pullquote = { text: val('e-pq'), attr: val('e-pqa') };
-  }
-  if(section === 'theme') {
-    D.theme = {
-      purple: val('e-purple'),
-      purple2: val('e-purple2'),
-      gold: val('e-gold'),
-      gold2: val('e-gold2'),
-      black: val('e-black'),
-      white: val('e-white'),
-      cream: val('e-cream'),
-      ink: val('e-ink')
-    };
-  }
-  if(section === 'typography') {
-    D.typography = { displayFont: val('e-font-display'), bodyFont: val('e-font-body') };
-  }
-
-  try {
-    const res = await apiPost('/api/admin/save', { section, data: D });
-    if(res.ok) {
-      toast('Changes saved successfully!');
-      updateStats();
-    } else {
-      toast(res.message || 'Save failed', 'error');
-    }
-  } catch(e) {
-    toast('Could not connect to server', 'error');
-  }
-}
-
-function resetTheme() {
-  const defaults = {
-    purple:'#4B1D8F',purple2:'#6B32C8',
-    gold:'#C9960C',gold2:'#E4AF24',
-    black:'#0A0812',white:'#FEFCFF',
-    cream:'#F9F6FF',ink:'#0D0A1A'
-  };
-  Object.entries(defaults).forEach(([k,v]) => {
-    setVal('e-'+k, v);
-    const prev = g('prev-'+k);
-    if(prev) prev.style.background = v;
-  });
-  D.theme = {...defaults};
-  saveSection('theme');
-}
-
-/* ── STATS ── */
-function updateStats() {
-  if(!D) return;
-  setVal('stat-services', D.services?.items?.length || 0);
-  setVal('stat-products', D.products?.items?.length || 0);
-  setVal('stat-clients', D.clients?.items?.length || 0);
-  setVal('stat-testimonials', D.testimonials?.items?.length || 0);
-  // Hack: stat-cards use innerHTML not value
-  ['services','products','clients','testimonials'].forEach(k => {
-    const el = g('stat-'+k);
-    const map = {services:'items',products:'items',clients:'items',testimonials:'items'};
-    if(el) el.textContent = D[k]?.[map[k]]?.length || 0;
-  });
-}
-
-/* ── SIDEBAR NAVIGATION ── */
-document.querySelectorAll('.s-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('on'));
-    document.querySelectorAll('.d-section').forEach(s => s.classList.remove('on'));
-    tab.classList.add('on');
-    const sec = document.querySelector(`[data-sec="${tab.dataset.tab}"]`);
-    if(sec) sec.classList.add('on');
-  });
+g('inv-submit').addEventListener('click',async()=>{
+  const token=getInviteToken(),pass=val('inv-pass'),pass2=val('inv-pass2'),errEl=g('invite-err');
+  errEl.classList.remove('show');
+  if(!pass||pass.length<8){errEl.textContent='Password must be 8+ characters.';errEl.classList.add('show');return;}
+  if(pass!==pass2){errEl.textContent='Passwords do not match.';errEl.classList.add('show');return;}
+  g('inv-submit').textContent='Activating...';g('inv-submit').disabled=true;
+  try{
+    const r=await fetch('/api/admin/invite/accept',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,password:pass})});
+    const d=await r.json();
+    if(d.ok&&d.token){
+      SESSION_TOKEN=d.token;SESSION_ROLE=d.role;
+      localStorage.setItem('jlsa_token',d.token);localStorage.setItem('jlsa_role',d.role);
+      window.history.replaceState({},'','/dashboard-cms');
+      showDashboard(d.email||'');await loadContent();toast('Account activated! Welcome aboard.');
+    }else{errEl.textContent=d.message||'Invalid invitation.';errEl.classList.add('show');}
+  }catch{errEl.textContent='Connection error.';errEl.classList.add('show');}
+  g('inv-submit').textContent='Activate Account →';g('inv-submit').disabled=false;
 });
 
-document.querySelectorAll('[data-goto]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.dataset.goto;
-    const tab = document.querySelector(`.s-tab[data-tab="${target}"]`);
-    if(tab) tab.click();
+/* LOGIN */
+async function doLogin(){
+  const email=val('l-email').trim(),pass=val('l-pass'),errEl=g('login-err');
+  errEl.classList.remove('show');
+  if(!email||!pass){errEl.textContent='Please enter your email and password.';errEl.classList.add('show');return;}
+  const btn=g('l-submit');btn.textContent='Signing in...';btn.disabled=true;
+  try{
+    const r=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
+    const d=await r.json();
+    if(d.token){
+      SESSION_TOKEN=d.token;SESSION_ROLE=d.role||'editor';
+      localStorage.setItem('jlsa_token',SESSION_TOKEN);localStorage.setItem('jlsa_role',SESSION_ROLE);
+      showDashboard(d.email||email);await loadContent();
+    }else{errEl.textContent=d.message||'Invalid credentials.';errEl.classList.add('show');}
+  }catch{errEl.textContent='Could not connect to server.';errEl.classList.add('show');}
+  btn.textContent='Sign In →';btn.disabled=false;
+}
+g('l-submit').addEventListener('click',doLogin);
+g('l-email').addEventListener('keydown',e=>{if(e.key==='Enter')g('l-pass').focus();});
+g('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+function showDashboard(email){
+  g('login-screen').classList.add('hidden');g('dashboard').classList.add('show');
+  if(email)g('dh-user-email').textContent=email;
+  if(SESSION_ROLE!=='admin'){const ut=g('users-tab');if(ut)ut.style.display='none';}
+}
+
+function logout(){
+  if(SESSION_TOKEN)fetch('/api/admin/logout',{method:'POST',headers:{'Authorization':'Bearer '+SESSION_TOKEN}}).catch(()=>{});
+  SESSION_TOKEN=null;SESSION_ROLE=null;
+  localStorage.removeItem('jlsa_token');localStorage.removeItem('jlsa_role');
+  g('dashboard').classList.remove('show');g('login-screen').classList.remove('hidden');
+  g('l-pass').value='';
+}
+g('logout-btn').addEventListener('click',logout);
+
+/* SESSION CHECK */
+(async function(){
+  if(!SESSION_TOKEN||inviteToken)return;
+  try{
+    const r=await apiGet('/api/admin/verify');
+    if(r.ok){SESSION_ROLE=r.role||SESSION_ROLE;localStorage.setItem('jlsa_role',SESSION_ROLE);showDashboard(r.email||'');await loadContent();}
+    else logout();
+  }catch{logout();}
+})();
+
+/* LOAD CONTENT */
+async function loadContent(){
+  try{
+    const d=await apiGet('/api/content');D=d;
+    populateForms();renderItemLists();renderNavLinks();updateStats();
+    if(SESSION_ROLE==='admin')loadMessages();
+  }catch{toast('Failed to load content','error');}
+}
+
+/* POPULATE FORMS */
+function populateForms(){
+  if(!D)return;
+  setVal('e-nav-name',D.nav?.logoName);setVal('e-nav-tagline',D.nav?.logoTagline);setVal('e-nav-cta',D.nav?.ctaLabel);setVal('e-nav-ctahref',D.nav?.ctaHref);
+  setVal('e-tag',D.hero?.tag);setVal('e-h1',D.hero?.headline);setVal('e-h1-em',D.hero?.headlineItalic);setVal('e-h1-small',D.hero?.headlineSmall);setVal('e-desc',D.hero?.description);
+  setVal('e-al',D.about?.label);setVal('e-ah',D.about?.heading);setVal('e-ap',D.about?.body);
+  setVal('e-sl',D.services?.label);setVal('e-sh',D.services?.heading);setVal('e-sp',D.services?.description);
+  setVal('e-pl',D.products?.label);setVal('e-ph',D.products?.heading);setVal('e-pp',D.products?.description);
+  setVal('e-cll',D.clients?.label);setVal('e-clh',D.clients?.heading);
+  setVal('e-tl',D.testimonials?.label);setVal('e-th',D.testimonials?.heading);
+  setVal('e-ctl',D.contact?.label);setVal('e-cth',D.contact?.heading);setVal('e-ctp',D.contact?.description);
+  setVal('e-phone',D.contact?.phone);setVal('e-email',D.contact?.email);setVal('e-website',D.contact?.website);setVal('e-location',D.contact?.location);
+  setVal('e-pq',D.pullquote?.text);setVal('e-pqa',D.pullquote?.attr);
+  const t=D.theme||{};
+  ['purple','purple2','gold','gold2','black','white','cream','ink'].forEach(k=>{
+    setVal('e-'+k,t[k]||'');const prev=g('prev-'+k);if(prev&&t[k])prev.style.background=t[k];
+    const inp=g('e-'+k);if(inp)inp.oninput=()=>{const p=g('prev-'+k);if(p)p.style.background=inp.value;};
   });
+}
+
+/* NAV LINKS */
+function renderNavLinks(){
+  const links=D?.nav?.links||[],el=g('nav-links-list');if(!el)return;
+  el.innerHTML=links.map((l,i)=>`
+    <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px;">
+      <div class="d-field" style="margin:0;"><label class="d-lbl">Label</label><input class="d-in" id="nl-label-${i}" value="${esc(l.label)}"></div>
+      <div class="d-field" style="margin:0;"><label class="d-lbl">Link</label><input class="d-in" id="nl-href-${i}" value="${esc(l.href)}"></div>
+      <button class="d-del" onclick="removeNavLink(${i})" style="height:42px;align-self:end;">✕</button>
+    </div>`).join('')+'<button class="d-add" onclick="addNavLink()" style="margin-top:6px;">+ Add Link</button>';
+}
+function collectNavLinks(){return(D?.nav?.links||[]).map((_,i)=>({label:val(`nl-label-${i}`),href:val(`nl-href-${i}`)})).filter(l=>l.label);}
+function addNavLink(){if(!D.nav)D.nav={};if(!D.nav.links)D.nav.links=[];D.nav.links.push({label:'New Link',href:'#section'});renderNavLinks();}
+function removeNavLink(i){D.nav.links.splice(i,1);renderNavLinks();}
+
+/* ITEM LISTS */
+function renderItemLists(){if(!D)return;renderServices();renderProducts();renderClients();renderTestimonials();}
+
+function renderServices(){
+  const items=D.services?.items||[];
+  g('services-list').innerHTML=items.map((sv,i)=>`
+    <div class="item-card" id="svc-card-${i}">
+      <div class="item-card-hdr" onclick="toggleCard('svc-card-${i}')">
+        <div class="item-card-hdr-left"><div class="item-ic-badge">${sv.ic}</div><div><div class="item-card-name">${esc(sv.t)}</div><div class="item-card-sub">${(sv.tags||[]).join(', ')}</div></div></div>
+        <span class="item-card-toggle">▼</span>
+      </div>
+      <div class="item-card-body">
+        <div class="d-grid"><div class="d-field"><label class="d-lbl">Icon</label><input class="d-in" id="si-${i}" value="${esc(sv.ic)}"></div><div class="d-field"><label class="d-lbl">Title</label><input class="d-in" id="st-${i}" value="${esc(sv.t)}"></div></div>
+        <div class="d-field"><label class="d-lbl">Description</label><textarea class="d-ta" id="sd-${i}" rows="3">${esc(sv.d)}</textarea></div>
+        <div class="d-field"><label class="d-lbl">Tags (comma separated)</label><input class="d-in" id="stags-${i}" value="${esc((sv.tags||[]).join(', '))}"></div>
+        <div class="btn-row"><button class="d-save" onclick="saveSvcItem(${i})">Save Service</button></div>
+      </div>
+    </div>`).join('');
+}
+function saveSvcItem(i){D.services.items[i].ic=val(`si-${i}`);D.services.items[i].t=val(`st-${i}`);D.services.items[i].d=val(`sd-${i}`);D.services.items[i].tags=val(`stags-${i}`).split(',').map(s=>s.trim()).filter(Boolean);saveSection('services');}
+
+function renderProducts(){
+  const items=D.products?.items||[];
+  g('products-list').innerHTML=items.map((p,i)=>`
+    <div class="item-card" id="prod-card-${i}">
+      <div class="item-card-hdr" onclick="toggleCard('prod-card-${i}')">
+        <div class="item-card-hdr-left"><div class="item-ic-badge">${p.ic}</div><div><div class="item-card-name">${esc(p.t)}</div><div class="item-card-sub">${(p.f||[]).length} features</div></div></div>
+        <span class="item-card-toggle">▼</span>
+      </div>
+      <div class="item-card-body">
+        <div class="d-grid"><div class="d-field"><label class="d-lbl">Icon</label><input class="d-in" id="pi-${i}" value="${esc(p.ic)}"></div><div class="d-field"><label class="d-lbl">Title</label><input class="d-in" id="pt-${i}" value="${esc(p.t)}"></div></div>
+        <div class="d-field"><label class="d-lbl">Description</label><textarea class="d-ta" id="pd-${i}" rows="3">${esc(p.d)}</textarea></div>
+        <div class="d-field"><label class="d-lbl">Features (one per line)</label><textarea class="d-ta" id="pf-${i}" rows="5">${esc((p.f||[]).join('\n'))}</textarea></div>
+        <div class="btn-row"><button class="d-save" onclick="saveProdItem(${i})">Save Product</button></div>
+      </div>
+    </div>`).join('');
+}
+function saveProdItem(i){D.products.items[i].ic=val(`pi-${i}`);D.products.items[i].t=val(`pt-${i}`);D.products.items[i].d=val(`pd-${i}`);D.products.items[i].f=val(`pf-${i}`).split('\n').map(s=>s.trim()).filter(Boolean);saveSection('products');}
+
+function renderClients(){
+  const items=D.clients?.items||[];
+  g('clients-list').innerHTML=items.map((c,i)=>`
+    <div class="item-card" id="cl-card-${i}">
+      <div class="item-card-hdr" onclick="toggleCard('cl-card-${i}')">
+        <div class="item-card-hdr-left"><div class="item-ic-badge">🤝</div><div><div class="item-card-name">${esc(c.n)}</div><div class="item-card-sub">${esc(c.l)} · ${esc(c.t)}</div></div></div>
+        <span class="item-card-toggle">▼</span>
+      </div>
+      <div class="item-card-body">
+        <div class="d-grid"><div class="d-field"><label class="d-lbl">Name</label><input class="d-in" id="cn-${i}" value="${esc(c.n)}"></div><div class="d-field"><label class="d-lbl">Location</label><input class="d-in" id="cloc-${i}" value="${esc(c.l)}"></div><div class="d-field"><label class="d-lbl">Type</label><input class="d-in" id="ct-${i}" value="${esc(c.t)}"></div></div>
+        <div class="btn-row"><button class="d-save" onclick="saveClientItem(${i})">Save</button><button class="d-del" onclick="deleteItem('clients',${i})">Delete</button></div>
+      </div>
+    </div>`).join('');
+}
+function saveClientItem(i){D.clients.items[i].n=val(`cn-${i}`);D.clients.items[i].l=val(`cloc-${i}`);D.clients.items[i].t=val(`ct-${i}`);saveSection('clients');}
+function addClient(){if(!D.clients)D.clients={items:[]};D.clients.items.push({n:'New Client',l:'Location',t:'Type'});renderClients();setTimeout(()=>toggleCard(`cl-card-${D.clients.items.length-1}`),50);}
+
+function renderTestimonials(){
+  const items=D.testimonials?.items||[];
+  g('testimonials-list').innerHTML=items.map((t,i)=>`
+    <div class="item-card" id="ts-card-${i}">
+      <div class="item-card-hdr" onclick="toggleCard('ts-card-${i}')">
+        <div class="item-card-hdr-left"><div class="item-ic-badge">💬</div><div><div class="item-card-name">${esc(t.n)}</div><div class="item-card-sub">${esc(t.r)}</div></div></div>
+        <span class="item-card-toggle">▼</span>
+      </div>
+      <div class="item-card-body">
+        <div class="d-field"><label class="d-lbl">Quote</label><textarea class="d-ta" id="tq-${i}" rows="3">${esc(t.q)}</textarea></div>
+        <div class="d-grid"><div class="d-field"><label class="d-lbl">Name</label><input class="d-in" id="tn-${i}" value="${esc(t.n)}"></div><div class="d-field"><label class="d-lbl">Role / Org</label><input class="d-in" id="tr-${i}" value="${esc(t.r)}"></div><div class="d-field"><label class="d-lbl">Initials</label><input class="d-in" id="ti-${i}" value="${esc(t.i)}" maxlength="3"></div></div>
+        <div class="btn-row"><button class="d-save" onclick="saveTestimonialItem(${i})">Save</button><button class="d-del" onclick="deleteItem('testimonials',${i})">Delete</button></div>
+      </div>
+    </div>`).join('');
+}
+function saveTestimonialItem(i){D.testimonials.items[i].q=val(`tq-${i}`);D.testimonials.items[i].n=val(`tn-${i}`);D.testimonials.items[i].r=val(`tr-${i}`);D.testimonials.items[i].i=val(`ti-${i}`);saveSection('testimonials');}
+function addTestimonial(){if(!D.testimonials)D.testimonials={items:[]};D.testimonials.items.push({q:'Quote here.',n:'Name',r:'Organisation',i:'CL'});renderTestimonials();setTimeout(()=>toggleCard(`ts-card-${D.testimonials.items.length-1}`),50);}
+function deleteItem(section,i){if(!confirm('Delete this item?'))return;if(section==='clients')D.clients.items.splice(i,1);if(section==='testimonials')D.testimonials.items.splice(i,1);renderItemLists();saveSection(section);}
+function toggleCard(id){const c=g(id);if(c)c.classList.toggle('open');}
+
+/* SAVE SECTION */
+async function saveSection(section){
+  if(!D)return;
+  if(section==='nav')D.nav={logoName:val('e-nav-name'),logoTagline:val('e-nav-tagline'),links:collectNavLinks(),ctaLabel:val('e-nav-cta'),ctaHref:val('e-nav-ctahref')};
+  if(section==='hero')D.hero={tag:val('e-tag'),headline:val('e-h1'),headlineItalic:val('e-h1-em'),headlineSmall:val('e-h1-small'),description:val('e-desc')};
+  if(section==='about')D.about={label:val('e-al'),heading:val('e-ah'),body:val('e-ap')};
+  if(section==='services'){D.services.label=val('e-sl');D.services.heading=val('e-sh');D.services.description=val('e-sp');}
+  if(section==='products'){D.products.label=val('e-pl');D.products.heading=val('e-ph');D.products.description=val('e-pp');}
+  if(section==='clients'){D.clients.label=val('e-cll');D.clients.heading=val('e-clh');}
+  if(section==='testimonials'){D.testimonials.label=val('e-tl');D.testimonials.heading=val('e-th');}
+  if(section==='contact')D.contact={label:val('e-ctl'),heading:val('e-cth'),description:val('e-ctp'),phone:val('e-phone'),email:val('e-email'),website:val('e-website'),location:val('e-location')};
+  if(section==='pullquote')D.pullquote={text:val('e-pq'),attr:val('e-pqa')};
+  if(section==='theme')D.theme={purple:val('e-purple'),purple2:val('e-purple2'),gold:val('e-gold'),gold2:val('e-gold2'),black:val('e-black'),white:val('e-white'),cream:val('e-cream'),ink:val('e-ink')};
+  if(section==='typography')D.typography={displayFont:val('e-font-display'),bodyFont:val('e-font-body')};
+  try{const r=await apiPost('/api/admin/save',{section,data:D});r.ok?toast('Changes saved!'):toast(r.message||'Save failed','error');}
+  catch{toast('Could not connect','error');}
+  updateStats();
+}
+
+function resetTheme(){const d={purple:'#4B1D8F',purple2:'#6B32C8',gold:'#C9960C',gold2:'#E4AF24',black:'#0A0812',white:'#FEFCFF',cream:'#F9F6FF',ink:'#0D0A1A'};Object.entries(d).forEach(([k,v])=>{setVal('e-'+k,v);const p=g('prev-'+k);if(p)p.style.background=v;});D.theme={...d};saveSection('theme');}
+function updateStats(){if(!D)return;['services','products','clients','testimonials'].forEach(k=>{const e=g('stat-'+k);if(e)e.textContent=D[k]?.items?.length||0;});}
+
+/* MESSAGES */
+let allMessages=[];
+async function loadMessages(){
+  try{const d=await apiGet('/api/admin/messages');allMessages=d.messages||[];renderMessages(allMessages);updateMsgBadge();}
+  catch(e){console.error(e);}
+}
+function updateMsgBadge(){
+  const unread=allMessages.filter(m=>!m.read).length,badge=g('msg-count');
+  if(badge){badge.style.display=unread>0?'inline-block':'none';badge.textContent=unread;}
+}
+function renderMessages(msgs){
+  const el=g('messages-list');if(!el)return;
+  if(!msgs.length){el.innerHTML='<div style="color:rgba(255,255,255,.3);font-size:13px;padding:16px 0;">No messages yet.</div>';return;}
+  el.innerHTML=msgs.map(m=>{
+    const date=new Date(m.createdAt).toLocaleString('en-KE',{timeZone:'Africa/Nairobi',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    return `<div class="msg-card ${m.read?'':'unread'} ${m.replied?'replied-tag':''}" data-id="${m._id}" onclick="toggleMsg(this,'${m._id}')">
+      <div class="msg-top">
+        <div class="msg-from">
+          ${esc(m.firstName)} ${esc(m.lastName||'')}
+          ${m.service?`<span class="msg-service">${esc(m.service)}</span>`:''}
+          <a href="mailto:${esc(m.email)}" class="msg-email-a" onclick="event.stopPropagation()">${esc(m.email)}</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+          <span class="msg-time">${date}</span>
+          <button class="d-del" style="padding:4px 10px;font-size:11px;" onclick="event.stopPropagation();deleteMsg('${m._id}',this)">✕</button>
+        </div>
+      </div>
+      <div class="msg-preview">${esc(m.message).slice(0,120)}${m.message.length>120?'...':''}</div>
+      <div class="msg-body">
+        <div class="msg-full">${esc(m.message)}</div>
+        ${m.company?`<div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:10px;">Company: ${esc(m.company)}</div>`:''}
+        <div class="msg-reply-area">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px;">Reply via Email</div>
+          <textarea class="msg-reply-ta" id="reply-ta-${m._id}" placeholder="Type your reply here..." onclick="event.stopPropagation()" onmousedown="event.stopPropagation()"></textarea>
+          <div class="msg-actions">
+            <button class="btn-reply" id="reply-btn-${m._id}" onclick="event.stopPropagation();sendReply('${m._id}')">Send Reply →</button>
+            <a href="mailto:${esc(m.email)}?subject=Re: ${esc(m.service||'Your Enquiry')}" class="d-add" style="text-decoration:none;font-size:12px;padding:8px 16px;" onclick="event.stopPropagation()">Open in Mail App ↗</a>
+          </div>
+          ${m.replied?`<div style="margin-top:8px;font-size:12px;color:#86efac;">✓ Replied ${m.repliedAt?new Date(m.repliedAt).toLocaleDateString('en-KE'):''}</div>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function toggleMsg(card,id){
+  card.classList.toggle('open');
+  if(card.classList.contains('open')&&card.classList.contains('unread')){
+    card.classList.remove('unread');
+    const m=allMessages.find(x=>String(x._id)===id);if(m)m.read=true;
+    updateMsgBadge();
+    try{await fetch(`/api/admin/messages/${id}/read`,{method:'PATCH',headers:SESSION_TOKEN?{'Authorization':'Bearer '+SESSION_TOKEN}:{}});}catch{}
+  }
+}
+
+async function sendReply(id){
+  const ta=g(`reply-ta-${id}`),btn=g(`reply-btn-${id}`);
+  if(!ta||!btn)return;
+  const text=ta.value.trim();
+  if(!text){toast('Please write a reply first.','error');return;}
+  btn.textContent='Sending...';btn.disabled=true;
+  try{
+    const r=await apiPost(`/api/admin/messages/${id}/reply`,{replyText:text});
+    if(r.ok){toast(r.message||'Reply sent!');ta.value='';const m=allMessages.find(x=>String(x._id)===id);if(m){m.replied=true;m.repliedAt=new Date();}renderMessages(allMessages);}
+    else toast(r.message||'Failed to send','error');
+  }catch{toast('Connection error','error');}
+  btn.textContent='Send Reply →';btn.disabled=false;
+}
+
+async function deleteMsg(id,btn){
+  event.stopPropagation();
+  if(!confirm('Delete this message?'))return;
+  try{
+    const r=await apiDelete(`/api/admin/messages/${id}`);
+    if(r.ok){allMessages=allMessages.filter(m=>String(m._id)!==id);renderMessages(allMessages);updateMsgBadge();toast('Message deleted.');}
+    else toast(r.message||'Failed','error');
+  }catch{toast('Connection error','error');}
+}
+
+async function clearAllMessages(){
+  if(!confirm('Delete ALL messages? This cannot be undone.'))return;
+  try{
+    const r=await apiDelete('/api/admin/messages');
+    if(r.ok){allMessages=[];renderMessages([]);updateMsgBadge();toast(`Cleared ${r.deleted||0} messages.`);}
+    else toast(r.message||'Failed','error');
+  }catch{toast('Connection error','error');}
+}
+
+/* INVITE */
+async function sendInvite(){
+  const email=val('inv-email').trim(),role=val('inv-role'),resEl=g('invite-result');
+  resEl.style.display='none';
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){resEl.innerHTML='<div style="color:#fca5a5;font-size:13px;">Valid email required.</div>';resEl.style.display='block';return;}
+  try{
+    const r=await apiPost('/api/admin/invite',{email,role});
+    resEl.style.display='block';
+    if(r.ok){
+      if(r.inviteUrl)resEl.innerHTML=`<div style="color:#86efac;font-size:13px;margin-bottom:8px;">✓ Created. Share this link manually:</div><div class="invite-url-box">${r.inviteUrl}</div><button class="copy-btn" onclick="copyUrl('${r.inviteUrl}')">Copy Link</button>`;
+      else resEl.innerHTML=`<div style="color:#86efac;font-size:13px;">✓ ${r.message}</div>`;
+      setVal('inv-email','');loadUsers();
+    }else{resEl.innerHTML=`<div style="color:#fca5a5;font-size:13px;">${esc(r.message)}</div>`;}
+  }catch{resEl.innerHTML='<div style="color:#fca5a5;font-size:13px;">Connection error.</div>';resEl.style.display='block';}
+}
+function copyUrl(url){navigator.clipboard.writeText(url).then(()=>toast('Link copied!','info')).catch(()=>{});}
+
+/* USERS */
+async function loadUsers(){
+  if(SESSION_ROLE!=='admin')return;
+  try{const d=await apiGet('/api/admin/users');renderUsers(d.users||[]);}catch{}
+}
+function renderUsers(users){
+  const el=g('users-list');if(!el)return;
+  if(!users.length){el.innerHTML='<div style="color:rgba(255,255,255,.3);font-size:13px;padding:16px 0;">No additional users yet.</div>';return;}
+  el.innerHTML=`<table class="users-table"><thead><tr><th>Email</th><th>Role</th><th>Added</th><th></th></tr></thead><tbody>${users.map(u=>`<tr><td style="color:rgba(255,255,255,.8);">${esc(u.email)}</td><td><span class="u-badge ${u.role}">${u.role}</span></td><td style="color:rgba(255,255,255,.4);">${new Date(u.createdAt).toLocaleDateString('en-KE')}</td><td><button class="d-del" style="padding:5px 12px;font-size:11px;" onclick="deleteUser('${u._id}')">Remove</button></td></tr>`).join('')}</tbody></table>`;
+}
+async function deleteUser(id){if(!confirm('Remove this user?'))return;try{const r=await apiDelete(`/api/admin/users/${id}`);if(r.ok){toast('User removed.');loadUsers();}else toast(r.message||'Failed','error');}catch{toast('Connection error','error');}}
+
+/* PASSWORD */
+async function changePassword(){
+  const cur=val('pw-current'),nw=val('pw-new'),conf=val('pw-confirm'),el=g('pw-msg');el.style.display='none';
+  if(!cur||!nw){showPwMsg('Fill in all fields.',false);return;}
+  if(nw.length<8){showPwMsg('New password must be 8+ characters.',false);return;}
+  if(nw!==conf){showPwMsg('Passwords do not match.',false);return;}
+  try{const r=await apiPost('/api/admin/change-password',{currentPassword:cur,newPassword:nw});if(r.ok){showPwMsg('✓ Password changed successfully!',true);g('pw-current').value='';g('pw-new').value='';g('pw-confirm').value='';}else showPwMsg(r.message||'Failed.',false);}
+  catch{showPwMsg('Connection error.',false);}
+}
+function showPwMsg(msg,ok){const e=g('pw-msg');e.textContent=msg;e.style.display='block';e.style.background=ok?'rgba(34,197,94,.12)':'rgba(239,68,68,.12)';e.style.border=ok?'1px solid rgba(34,197,94,.3)':'1px solid rgba(239,68,68,.3)';e.style.color=ok?'#86efac':'#fca5a5';}
+
+/* SIDEBAR */
+document.querySelectorAll('.s-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.s-tab').forEach(t=>t.classList.remove('on'));
+    document.querySelectorAll('.d-section').forEach(s=>s.classList.remove('on'));
+    tab.classList.add('on');
+    const sec=document.querySelector(`[data-sec="${tab.dataset.tab}"]`);if(sec)sec.classList.add('on');
+    if(tab.dataset.tab==='messages')loadMessages();
+    if(tab.dataset.tab==='users')loadUsers();
+  });
+});
+document.querySelectorAll('[data-goto]').forEach(btn=>{
+  btn.addEventListener('click',()=>{const t=document.querySelector(`.s-tab[data-tab="${btn.dataset.goto}"]`);if(t)t.click();});
 });
 </script>
 </body>

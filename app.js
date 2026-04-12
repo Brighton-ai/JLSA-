@@ -403,6 +403,121 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') closeMobileNav(
 const adminBtn = g('admin-trigger');
 if(adminBtn) adminBtn.addEventListener('click', () => { window.location.href = '/admin'; });
 
+/* ─── CONTACT FORM ─── */
+async function submitContact() {
+  const btn = g('cf-submit');
+  const successEl = g('contact-success');
+  const errorEl = g('contact-error');
+
+  const firstName = (g('cf-fname')?.value || '').trim();
+  const lastName  = (g('cf-lname')?.value || '').trim();
+  const company   = (g('cf-company')?.value || '').trim();
+  const email     = (g('cf-email')?.value || '').trim();
+  const service   = (g('cf-service')?.value || '').trim();
+  const message   = (g('cf-message')?.value || '').trim();
+
+  // Hide previous messages
+  if(successEl) successEl.style.display = 'none';
+  if(errorEl)   errorEl.style.display   = 'none';
+
+  // Basic validation
+  if(!firstName) { showFormError('Please enter your first name.'); return; }
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showFormError('Please enter a valid email address.'); return; }
+  if(!message) { showFormError('Please enter a message.'); return; }
+
+  if(btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ firstName, lastName, company, email, service, message })
+    });
+    const data = await res.json();
+    if(data.ok) {
+      if(successEl) successEl.style.display = 'block';
+      // Reset form
+      ['cf-fname','cf-lname','cf-company','cf-email','cf-service','cf-message'].forEach(id => {
+        const el = g(id); if(el) el.value = '';
+      });
+    } else {
+      showFormError(data.message || 'Failed to send. Please try again.');
+    }
+  } catch(e) {
+    showFormError('Network error. Please check your connection and try again.');
+  } finally {
+    if(btn) { btn.disabled = false; btn.textContent = 'Send Message →'; }
+  }
+}
+
+function showFormError(msg) {
+  const el = g('contact-error');
+  if(el) { el.textContent = msg; el.style.display = 'block'; }
+}
+
+/* ─── CHATBOT ─── */
+let chatOpen = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const win = g('chatbot-window');
+  const badge = g('chatbot-badge');
+  if(win) win.classList.toggle('chat-hidden', !chatOpen);
+  if(badge) badge.style.display = 'none';
+  if(chatOpen) {
+    const inp = g('chat-input');
+    if(inp) setTimeout(() => inp.focus(), 100);
+  }
+}
+
+async function sendChat() {
+  const inp = g('chat-input');
+  if(!inp) return;
+  const msg = inp.value.trim();
+  if(!msg) return;
+
+  inp.value = '';
+  appendChatMsg(msg, 'user');
+
+  // Show typing indicator
+  const typingId = 'chat-typing-' + Date.now();
+  appendChatMsg('…', 'bot', typingId);
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: msg })
+    });
+    const data = await res.json();
+    removeChatMsg(typingId);
+    appendChatMsg(data.ok ? data.reply : "Sorry, I couldn't process that. Please try again.", 'bot');
+  } catch(e) {
+    removeChatMsg(typingId);
+    appendChatMsg('Network error. Please check your connection.', 'bot');
+  }
+}
+
+function appendChatMsg(text, role, id) {
+  const box = g('chat-messages');
+  if(!box) return;
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  if(id) div.id = id;
+  // Convert newlines to <br>
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble';
+  bubble.innerHTML = text.replace(/\n/g, '<br>');
+  div.appendChild(bubble);
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function removeChatMsg(id) {
+  const el = g(id);
+  if(el) el.remove();
+}
+
 /* ─── BOOT ─── */
 (async () => {
   await loadData();

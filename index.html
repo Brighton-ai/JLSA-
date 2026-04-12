@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Joshlee Solutions Africa | Developing Solutions for The Future</title>
+<meta name="description" content="Joshlee Solutions Africa — IT consultancy based in Nairobi, Kenya. Cybersecurity, cloud solutions, networking, website development and IT turnkey solutions for East African businesses.">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
@@ -260,7 +261,7 @@
   </div>
 </section>
 
-<!-- ROTATION -->
+<!-- ROTATION / PARTNERS -->
 <section id="rotation">
   <div class="wrap" style="padding:72px 0 0;text-align:center;">
     <div class="sec-eye rv" style="justify-content:center;">Partner Ecosystem</div>
@@ -310,21 +311,23 @@
         <p class="sec-p" id="ct-p">Whether you need an IT audit, cybersecurity consultation, network setup or a new website — our team is ready to help.</p>
         <div class="ci-list">
           <div class="ci-item"><div class="ci-ic">📞</div><div><div class="ci-lbl">Phone</div><div class="ci-val">0739 293 691</div></div></div>
-          <div class="ci-item"><div class="ci-ic">✉️</div><div><div class="ci-lbl">Email</div><div class="ci-val">miricconsultantskenya@gmail.com</div></div></div>
+          <div class="ci-item"><div class="ci-ic">✉️</div><div><div class="ci-lbl">Email</div><div class="ci-val">info@joshleesafrica.com</div></div></div>
           <div class="ci-item"><div class="ci-ic">🌐</div><div><div class="ci-lbl">Website</div><div class="ci-val">joshleesafrica.com</div></div></div>
           <div class="ci-item"><div class="ci-ic">📍</div><div><div class="ci-lbl">Location</div><div class="ci-val">Nairobi, Kenya</div></div></div>
         </div>
       </div>
       <div class="rv-r">
         <div class="cform">
+          <div id="contact-success" style="display:none;padding:14px 18px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);border-radius:10px;color:#86efac;font-size:14px;margin-bottom:16px;">✓ Message sent! We will get back to you within 2 business hours.</div>
+          <div id="contact-error" style="display:none;padding:14px 18px;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);border-radius:10px;color:#fca5a5;font-size:14px;margin-bottom:16px;"></div>
           <div class="frow">
-            <div class="fg"><label class="flbl">First Name</label><input class="fi" placeholder="John"></div>
-            <div class="fg"><label class="flbl">Last Name</label><input class="fi" placeholder="Doe"></div>
+            <div class="fg"><label class="flbl">First Name</label><input class="fi" id="cf-fname" placeholder="John"></div>
+            <div class="fg"><label class="flbl">Last Name</label><input class="fi" id="cf-lname" placeholder="Doe"></div>
           </div>
-          <div class="fg"><label class="flbl">Company / Organisation</label><input class="fi" placeholder="Your company name"></div>
-          <div class="fg"><label class="flbl">Email</label><input type="email" class="fi" placeholder="you@company.com"></div>
+          <div class="fg"><label class="flbl">Company / Organisation</label><input class="fi" id="cf-company" placeholder="Your company name"></div>
+          <div class="fg"><label class="flbl">Email</label><input type="email" class="fi" id="cf-email" placeholder="you@company.com"></div>
           <div class="fg"><label class="flbl">Service of Interest</label>
-            <select class="fs">
+            <select class="fs" id="cf-service">
               <option value="">Select a service...</option>
               <option>ICT Management &amp; Strategy</option>
               <option>Cybersecurity Services</option>
@@ -337,8 +340,8 @@
               <option>Hardware &amp; Software Procurement</option>
             </select>
           </div>
-          <div class="fg"><label class="flbl">Message</label><textarea class="ft" placeholder="Tell us about your project or challenge..."></textarea></div>
-          <button class="fsub">Send Message →</button>
+          <div class="fg"><label class="flbl">Message</label><textarea class="ft" id="cf-message" placeholder="Tell us about your project or challenge..."></textarea></div>
+          <button class="fsub" id="cf-submit" onclick="submitContact()">Send Message →</button>
         </div>
       </div>
     </div>
@@ -374,16 +377,45 @@
       </ul></div>
       <div class="ft-col"><h4>Contact</h4><ul>
         <li><a href="tel:0739293691">0739 293 691</a></li>
-        <li><a href="mailto:miricconsultantskenya@gmail.com">info@joshleesafrica.com</a></li>
+        <li><a href="mailto:info@joshleesafrica.com">info@joshleesafrica.com</a></li>
         <li><a href="#contact">Nairobi, Kenya</a></li>
       </ul></div>
     </div>
     <div class="ft-bottom">
-      <p>© 2025 Joshlee Solutions Africa. All rights reserved.</p>
-      <button class="admin-btn" id="admin-trigger">admin</button>
+      <div class="ft-copy">© 2025 Joshlee Solutions Africa. All rights reserved.</div>
+      <div class="ft-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
     </div>
   </div>
 </footer>
+
+<!-- CHATBOT WIDGET -->
+<div id="chatbot-btn" onclick="toggleChat()" title="Chat with us">
+  <div id="chatbot-icon">💬</div>
+  <div id="chatbot-badge" style="display:none;">1</div>
+</div>
+
+<div id="chatbot-window" class="chat-hidden">
+  <div id="chat-header">
+    <div id="chat-header-info">
+      <div id="chat-avatar">JS</div>
+      <div>
+        <div id="chat-name">JLSA Support</div>
+        <div id="chat-status">● Online</div>
+      </div>
+    </div>
+    <button id="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div id="chat-messages">
+    <div class="chat-msg bot"><div class="chat-bubble">👋 Hi! I am the JLSA virtual assistant. How can I help you today?<br><br>You can ask about our services, pricing, or how to get in touch.</div></div>
+  </div>
+  <div id="chat-input-row">
+    <input id="chat-input" type="text" placeholder="Type a message..." autocomplete="off" onkeydown="if(event.key==='Enter')sendChat()">
+    <button id="chat-send" onclick="sendChat()">&#10148;</button>
+  </div>
+</div>
 
 <script src="/app.js"></script>
 </body>
